@@ -1,0 +1,362 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[     13288,        352]
+NotebookOptionsPosition[     12910,        338]
+NotebookOutlinePosition[     13328,        354]
+CellTagsIndexPosition[     13285,        351]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"Fuzzy", " ", "Logic", " ", "Layer"}], "*)"}], 
+  RowBox[{
+   RowBox[{
+    RowBox[{"fuzzyLogicLayer", "=", 
+     RowBox[{"NetChain", "[", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"LinearLayer", "[", "10", "]"}], ",", "LogisticSigmoid"}], 
+       "}"}], "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"centralGanglion", "=", 
+     RowBox[{"NetGraph", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"\"\<FuzzyLogic\>\"", "->", 
+          RowBox[{"NetChain", "[", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"LinearLayer", "[", "10", "]"}], ",", 
+             "LogisticSigmoid"}], "}"}], "]"}]}], ",", 
+         RowBox[{"\"\<Crosstalk\>\"", "->", 
+          RowBox[{"NetMapOperator", "[", 
+           RowBox[{"LinearLayer", "[", "10", "]"}], "]"}]}], ",", 
+         RowBox[{"\"\<Add\>\"", "->", 
+          RowBox[{"ThreadingLayer", "[", 
+           RowBox[{"Plus", ",", "1"}], "]"}]}]}], "  ", 
+        RowBox[{"(*", 
+         RowBox[{"Adding", " ", "broadcasting", " ", "integer"}], "*)"}], 
+        "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"\"\<FuzzyLogic\>\"", "->", "\"\<Add\>\""}], ",", 
+         RowBox[{"\"\<Crosstalk\>\"", "->", 
+          RowBox[{"\"\<Add\>\"", "->", 
+           RowBox[{"NetPort", "[", "\"\<Output\>\"", "]"}]}]}]}], "}"}]}], 
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{"Updated", " ", "RNN", " ", "Model"}], "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"rnnModel", "=", 
+     RowBox[{"NetChain", "[", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"GatedRecurrentLayer", "[", "20", "]"}], ",", 
+        RowBox[{"LinearLayer", "[", "10", "]"}]}], "}"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{"Kohonen", " ", "SOM"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"kohonenSOMLayer", "=", 
+     RowBox[{"NetChain", "[", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"LinearLayer", "[", "10", "]"}], ",", 
+        RowBox[{"(*", 
+         RowBox[{
+         "Replace", " ", "with", " ", "actual", " ", "Kohonen", " ", 
+          "logic"}], "*)"}], "LogisticSigmoid"}], "}"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{"Corrected", " ", "LSTM", " ", "Model"}], "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"lstmModel", "=", 
+     RowBox[{"NetChain", "[", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"LongShortTermMemoryLayer", "[", "20", "]"}], ",", 
+        RowBox[{"(*", 
+         RowBox[{"Corrected", " ", "LSTM", " ", "Layer"}], "*)"}], 
+        RowBox[{"LinearLayer", "[", "10", "]"}]}], "}"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Updated", " ", "Generator", " ", "with", " ", "explicit", " ", "merging",
+      " ", "of", " ", "outputs"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"generator", "=", 
+     RowBox[{"NetGraph", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"\"\<RNN\>\"", "->", "rnnModel"}], ",", 
+         RowBox[{"\"\<SOM\>\"", "->", "kohonenSOMLayer"}], ",", 
+         RowBox[{"\"\<LSTM\>\"", "->", "lstmModel"}], ",", 
+         RowBox[{"\"\<Catenate\>\"", "->", 
+          RowBox[{"CatenateLayer", "[", "]"}]}], ",", 
+         RowBox[{"(*", 
+          RowBox[{
+           RowBox[{"Merge", " ", "RNN"}], ",", "SOM", ",", 
+           RowBox[{"and", " ", "LSTM", " ", "outputs"}]}], "*)"}], 
+         RowBox[{"\"\<Ganglion\>\"", "->", "centralGanglion"}], ",", 
+         RowBox[{"\"\<Combine\>\"", "->", 
+          RowBox[{"CatenateLayer", "[", "]"}]}], ",", 
+         RowBox[{"\"\<FC\>\"", "->", 
+          RowBox[{"LinearLayer", "[", "10", "]"}]}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"NetPort", "[", "\"\<Input\>\"", "]"}], "->", 
+          RowBox[{"{", 
+           RowBox[{"\"\<RNN\>\"", ",", "\"\<SOM\>\"", ",", "\"\<LSTM\>\""}], 
+           "}"}]}], ",", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"\"\<RNN\>\"", ",", "\"\<SOM\>\"", ",", "\"\<LSTM\>\""}], 
+           "}"}], "->", 
+          RowBox[{"\"\<Catenate\>\"", "->", 
+           RowBox[{"\"\<Ganglion\>\"", "->", 
+            RowBox[{"\"\<Combine\>\"", "->", 
+             RowBox[{"\"\<FC\>\"", "->", 
+              RowBox[{"NetPort", "[", "\"\<Output\>\"", "]"}]}]}]}]}]}]}], 
+        "}"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Updated", " ", "Discriminator", " ", "with", " ", "explicit", " ", 
+     "merging", " ", "of", " ", "outputs"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"discriminator", "=", 
+     RowBox[{"NetGraph", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"\"\<RNN\>\"", "->", "rnnModel"}], ",", 
+         RowBox[{"\"\<SOM\>\"", "->", "kohonenSOMLayer"}], ",", 
+         RowBox[{"\"\<LSTM\>\"", "->", "lstmModel"}], ",", 
+         RowBox[{"\"\<Catenate\>\"", "->", 
+          RowBox[{"CatenateLayer", "[", "]"}]}], ",", 
+         RowBox[{"(*", 
+          RowBox[{
+           RowBox[{"Merge", " ", "RNN"}], ",", "SOM", ",", 
+           RowBox[{"and", " ", "LSTM", " ", "outputs"}]}], "*)"}], 
+         RowBox[{"\"\<Ganglion\>\"", "->", "centralGanglion"}], ",", 
+         RowBox[{"\"\<Combine\>\"", "->", 
+          RowBox[{"CatenateLayer", "[", "]"}]}], ",", 
+         RowBox[{"\"\<FC\>\"", "->", 
+          RowBox[{"LinearLayer", "[", "1", "]"}]}], ",", 
+         RowBox[{"\"\<Sigmoid\>\"", "->", "LogisticSigmoid"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"NetPort", "[", "\"\<Input\>\"", "]"}], "->", 
+          RowBox[{"{", 
+           RowBox[{"\"\<RNN\>\"", ",", "\"\<SOM\>\"", ",", "\"\<LSTM\>\""}], 
+           "}"}]}], ",", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"\"\<RNN\>\"", ",", "\"\<SOM\>\"", ",", "\"\<LSTM\>\""}], 
+           "}"}], "->", 
+          RowBox[{"\"\<Catenate\>\"", "->", 
+           RowBox[{"\"\<Ganglion\>\"", "->", 
+            RowBox[{"\"\<Combine\>\"", "->", 
+             RowBox[{"\"\<FC\>\"", "->", 
+              RowBox[{"\"\<Sigmoid\>\"", "->", 
+               RowBox[{"NetPort", "[", "\"\<Output\>\"", "]"}]}]}]}]}]}]}]}], 
+        "}"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Manually", " ", "initialize", " ", "weights", " ", "and", " ", "biases", 
+     " ", "with", " ", "specified", " ", "input", " ", "size"}], "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"net", "=", 
+     RowBox[{"NetChain", "[", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"LinearLayer", "[", 
+         RowBox[{"10", ",", 
+          RowBox[{"\"\<Input\>\"", "->", "10"}], ",", 
+          RowBox[{"(*", 
+           RowBox[{"Specify", " ", "input", " ", "size", " ", "here"}], 
+           "*)"}], 
+          RowBox[{"\"\<Weights\>\"", "->", 
+           RowBox[{"RandomReal", "[", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"-", "0.1"}], ",", "0.1"}], "}"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"10", ",", "10"}], "}"}]}], "]"}]}], ",", 
+          RowBox[{"\"\<Biases\>\"", "->", 
+           RowBox[{"RandomReal", "[", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"-", "0.1"}], ",", "0.1"}], "}"}], ",", 
+             RowBox[{"{", "10", "}"}]}], "]"}]}]}], "]"}], ",", 
+        "LogisticSigmoid"}], "}"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"Step", " ", "1"}], ":", 
+     RowBox[{"Import", " ", "the", " ", "BMP", " ", "Image"}]}], "*)"}], 
+   RowBox[{
+    RowBox[{"image", "=", 
+     RowBox[{
+     "Import", "[", 
+      "\"\<C:\\\\Users\\\\User\\\\Desktop\\\\wolfram_projects\\\\testcard.bmp\
+\>\"", "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"Step", " ", "2"}], ":", 
+     RowBox[{
+     "Convert", " ", "the", " ", "Image", " ", "to", " ", "Numeric", " ", 
+      "Data"}]}], "*)"}], "\n", 
+   RowBox[{
+    RowBox[{"imageData", "=", 
+     RowBox[{"ImageData", "[", "image", "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<Dimensions of imageData: \>\"", ",", 
+      RowBox[{"Dimensions", "[", "imageData", "]"}]}], "]"}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"Step", " ", "3"}], ":", 
+     RowBox[{
+     "Flatten", " ", "the", " ", "Image", " ", "Data", " ", "if", " ", 
+      "necessary"}]}], "*)"}], "\n", 
+   RowBox[{
+    RowBox[{"flattenedImageData", "=", 
+     RowBox[{"Flatten", "[", "imageData", "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<Length of flattened imageData: \>\"", ",", 
+      RowBox[{"Length", "[", "flattenedImageData", "]"}]}], "]"}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"Step", " ", "4"}], ":", 
+     RowBox[{
+     "Normalize", " ", "the", " ", "Image", " ", "Data", " ", "to", " ", "be",
+       " ", "between", " ", "0", " ", "and", " ", "1"}]}], "*)"}], "\n", 
+   RowBox[{
+    RowBox[{"normalizedImageData", "=", 
+     RowBox[{"Rescale", "[", 
+      RowBox[{"flattenedImageData", ",", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", "1"}], "}"}]}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<Sample of normalized imageData: \>\"", ",", 
+      RowBox[{"Take", "[", 
+       RowBox[{"normalizedImageData", ",", "10"}], "]"}]}], "]"}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"Step", " ", "5"}], ":", 
+     RowBox[{
+     "Reshape", " ", "the", " ", "Data", " ", "to", " ", "Match", " ", 
+      "Network", " ", "Input", " ", "Requirements"}]}], "*)"}], "\n", 
+   RowBox[{
+    RowBox[{"reshapedImageData", "=", 
+     RowBox[{"Partition", "[", 
+      RowBox[{"normalizedImageData", ",", "10"}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<Sample of reshapedImageData: \>\"", ",", 
+      RowBox[{"Take", "[", 
+       RowBox[{"reshapedImageData", ",", "5"}], "]"}]}], "]"}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"Step", " ", "6"}], ":", 
+     RowBox[{
+     "Evaluate", " ", "the", " ", "Network", " ", "with", " ", "the", " ", 
+      "Reshaped", " ", "Image", " ", "Data"}]}], "*)"}], "\n", 
+   RowBox[{
+    RowBox[{"output", "=", 
+     RowBox[{"net", "[", "reshapedImageData", "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<Network output: \>\"", ",", 
+      RowBox[{"Take", "[", 
+       RowBox[{"output", ",", "10"}], "]"}]}], "]"}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"Step", " ", "7"}], ":", 
+     RowBox[{
+     "Reshape", " ", "the", " ", "Output", " ", "to", " ", "Match", " ", 
+      "the", " ", "Image", " ", "Dimensions", " ", "if", " ", "Necessary"}]}],
+     "*)"}], "\n", 
+   RowBox[{
+    RowBox[{"reshapedOutput", "=", 
+     RowBox[{"ArrayReshape", "[", 
+      RowBox[{"output", ",", 
+       RowBox[{"Dimensions", "[", "imageData", "]"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"Step", " ", "8"}], ":", 
+     RowBox[{
+     "Convert", " ", "the", " ", "Output", " ", "Back", " ", "to", " ", "an", 
+      " ", "Image"}]}], "*)"}], "\n", 
+   RowBox[{
+    RowBox[{"outputImage", "=", 
+     RowBox[{"Image", "[", "reshapedOutput", "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"Export", "[", 
+     RowBox[{
+     "\"\<C:\\\\Users\\\\User\\\\Desktop\\\\wolfram_projects\\\\processed_\
+testcard.bmp\>\"", ",", "outputImage"}], "]"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"Step", " ", "9"}], ":", 
+     RowBox[{"Display", " ", "the", " ", "Output", " ", "Image"}]}], "*)"}], 
+   "\n", "outputImage", "\n"}]}]], "Input",
+ CellChangeTimes->{{3.9330188646485214`*^9, 
+  3.933018896689577*^9}},ExpressionUUID->"402ec1ae-430e-4c4c-b028-\
+e34ca3b2aa07"]
+},
+WindowSize->{582.6, 488.4},
+WindowMargins->{{Automatic, 205.20000000000005`}, {Automatic, 0}},
+FrontEndVersion->"14.1 for Microsoft Windows (64-bit) (July 16, 2024)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"349e7812-4ef8-1444-8fc5-0f383df83eed"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[554, 20, 12352, 316, 1873, "Input",ExpressionUUID->"402ec1ae-430e-4c4c-b028-e34ca3b2aa07"]
+}
+]
+*)
+
+(* End of internal cache information *)
+

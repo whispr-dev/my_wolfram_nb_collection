@@ -1,0 +1,423 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[     17285,        415]
+NotebookOptionsPosition[     16477,        393]
+NotebookOutlinePosition[     16878,        409]
+CellTagsIndexPosition[     16835,        406]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"Wolfram", " ", "code", " ", "initiated"}], "*)"}], 
+  RowBox[{"(*", 
+   RowBox[{
+   "Function", " ", "to", " ", "read", " ", "automaton", " ", "configuration",
+     " ", "from", " ", "the", " ", "input", " ", "file"}], "*)"}], 
+  RowBox[{
+   RowBox[{
+    RowBox[{"readConfiguration", "[", "filename_", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"initialState", "=", 
+         RowBox[{"{", "}"}]}], ",", 
+        RowBox[{"rule", "=", "None"}], ",", 
+        RowBox[{"numRows", "=", "None"}], ",", "fileLines", ",", "line"}], 
+       "}"}], ",", 
+      RowBox[{"(*", 
+       RowBox[{
+       "Try", " ", "to", " ", "read", " ", "the", " ", "file", " ", "and", 
+        " ", "process", " ", "each", " ", "line"}], "*)"}], 
+      RowBox[{
+       RowBox[{"fileLines", "=", 
+        RowBox[{"Check", "[", 
+         RowBox[{
+          RowBox[{"Import", "[", 
+           RowBox[{"filename", ",", "\"\<Lines\>\""}], "]"}], ",", 
+          RowBox[{
+           RowBox[{"Print", "[", 
+            RowBox[{
+            "\"\<Error: The file '\>\"", ",", "filename", ",", 
+             "\"\<' was not found.\>\""}], "]"}], ";", 
+           RowBox[{"Return", "[", "]"}]}]}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+        "Process", " ", "lines", " ", "to", " ", "extract", " ", 
+         "parameters"}], "*)"}], 
+       RowBox[{"Do", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"line", "=", 
+           RowBox[{"StringTrim", "[", 
+            RowBox[{"fileLines", "[", 
+             RowBox[{"[", "i", "]"}], "]"}], "]"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"StringStartsQ", "[", 
+             RowBox[{"line", ",", "\"\<initial_state:\>\""}], "]"}], ",", 
+            RowBox[{
+             RowBox[{"initialState", "=", 
+              RowBox[{"ToExpression", "[", 
+               RowBox[{"StringSplit", "[", 
+                RowBox[{
+                 RowBox[{"StringTrim", "[", 
+                  RowBox[{
+                   RowBox[{"StringSplit", "[", 
+                    RowBox[{"line", ",", "\"\<:\>\""}], "]"}], "[", 
+                   RowBox[{"[", "2", "]"}], "]"}], "]"}], ",", "\"\<,\>\""}], 
+                "]"}], "]"}]}], ";"}]}], "]"}], ";", "\[IndentingNewLine]", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"StringStartsQ", "[", 
+             RowBox[{"line", ",", "\"\<rule:\>\""}], "]"}], ",", 
+            RowBox[{
+             RowBox[{"rule", "=", 
+              RowBox[{"ToExpression", "[", 
+               RowBox[{"StringTrim", "[", 
+                RowBox[{
+                 RowBox[{"StringSplit", "[", 
+                  RowBox[{"line", ",", "\"\<:\>\""}], "]"}], "[", 
+                 RowBox[{"[", "2", "]"}], "]"}], "]"}], "]"}]}], ";"}]}], 
+           "]"}], ";", "\[IndentingNewLine]", 
+          RowBox[{"If", "[", 
+           RowBox[{
+            RowBox[{"StringStartsQ", "[", 
+             RowBox[{"line", ",", "\"\<rows:\>\""}], "]"}], ",", 
+            RowBox[{
+             RowBox[{"numRows", "=", 
+              RowBox[{"ToExpression", "[", 
+               RowBox[{"StringTrim", "[", 
+                RowBox[{
+                 RowBox[{"StringSplit", "[", 
+                  RowBox[{"line", ",", "\"\<:\>\""}], "]"}], "[", 
+                 RowBox[{"[", "2", "]"}], "]"}], "]"}], "]"}]}], ";"}]}], 
+           "]"}], ";"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"i", ",", 
+           RowBox[{"Length", "[", "fileLines", "]"}]}], "}"}]}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+        "Check", " ", "if", " ", "rule", " ", "and", " ", "numRows", " ", 
+         "are", " ", "defined"}], "*)"}], 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"rule", "===", "None"}], "||", 
+          RowBox[{"numRows", "===", "None"}]}], ",", 
+         RowBox[{
+          RowBox[{
+          "Print", "[", 
+           "\"\<Error: Missing rule or rows in the configuration file.\>\"", 
+           "]"}], ";", "\[IndentingNewLine]", 
+          RowBox[{"Return", "[", "]"}]}]}], "]"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"{", 
+        RowBox[{"initialState", ",", "rule", ",", "numRows"}], "}"}]}]}], 
+     "]"}]}], "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Initialize", " ", "the", " ", "grid", " ", "and", " ", "step", " ", 
+     "counter"}], "*)"}], 
+   RowBox[{
+    RowBox[{"gridSize", "=", "5"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"numSteps", "=", "10"}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"Initialize", " ", "grid", " ", "and", " ", "ensure", " ", 
+     RowBox[{"it", "'"}], "s", " ", "a", " ", "2", "D", " ", "list"}], "*)"}], 
+   RowBox[{
+    RowBox[{"gridSize", "=", "5"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"gridCopy", "=", 
+     RowBox[{"RandomReal", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"0", ",", "2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"gridSize", ",", "gridSize"}], "}"}]}], "]"}]}], ";"}], "\n", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Check", " ", "the", " ", "dimensions", " ", "to", " ", "confirm", " ", 
+     RowBox[{"it", "'"}], "s", " ", "a", " ", "2", "D", " ", "list"}], "*)"}],
+    "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<Dimensions of gridCopy before manipulation: \>\"", ",", 
+      RowBox[{"Dimensions", "[", "gridCopy", "]"}]}], "]"}], ";"}], "\n", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Manipulate", " ", "the", " ", "grid", " ", "while", " ", "keeping", " ", 
+     "its", " ", "structure"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"gridCopy", "=", 
+     RowBox[{"Map", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Clip", "[", 
+         RowBox[{
+          RowBox[{"#", "+", 
+           RowBox[{"RandomReal", "[", 
+            RowBox[{"{", 
+             RowBox[{
+              RowBox[{"-", "0.1"}], ",", "0.1"}], "}"}], "]"}]}], ",", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "2"}], "}"}]}], "]"}], "&"}], ",", "gridCopy", 
+       ",", 
+       RowBox[{"{", "2", "}"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"Check", " ", "again", " ", "after", " ", "manipulation"}], 
+    "*)"}], "\n", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<Dimensions of gridCopy after manipulation: \>\"", ",", 
+      RowBox[{"Dimensions", "[", "gridCopy", "]"}]}], "]"}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"DynamicModule", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"step", "=", "0"}], ",", 
+       RowBox[{"gridCopy", "=", 
+        RowBox[{"RandomReal", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"0", ",", "2"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"gridSize", ",", "gridSize"}], "}"}]}], "]"}]}]}], "}"}], 
+     ",", 
+     RowBox[{"Column", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"Button", "[", 
+          RowBox[{"\"\<Next Step\>\"", ",", 
+           RowBox[{
+            RowBox[{"gridCopy", "=", 
+             RowBox[{"Map", "[", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"Clip", "[", 
+                 RowBox[{
+                  RowBox[{"#", "+", 
+                   RowBox[{"RandomReal", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"-", "0.1"}], ",", "0.1"}], "}"}], "]"}]}], ",", 
+                  RowBox[{"{", 
+                   RowBox[{"0", ",", "2"}], "}"}]}], "]"}], "&"}], ",", 
+               "gridCopy", ",", 
+               RowBox[{"{", "2", "}"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+            RowBox[{"step", "++"}]}]}], "]"}], ",", 
+         RowBox[{"Dynamic", "[", 
+          RowBox[{"ArrayPlot", "[", 
+           RowBox[{"gridCopy", ",", 
+            RowBox[{"ColorFunction", "->", "\"\<TemperatureMap\>\""}], ",", 
+            RowBox[{"PlotRange", "->", 
+             RowBox[{"{", 
+              RowBox[{"0", ",", "2"}], "}"}]}]}], "]"}], "]"}], ",", 
+         RowBox[{"Dynamic", "[", "step", "]"}]}], "}"}], ",", 
+       RowBox[{"TrackedSymbols", ":>", 
+        RowBox[{"{", 
+         RowBox[{"gridCopy", ",", "step"}], "}"}]}]}], "]"}]}], "]"}], "\n", 
+   "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Use", " ", "ArrayPlot", " ", "if", " ", "gridCopy", " ", "is", " ", 
+     "correctly", " ", "formatted"}], "*)"}], "\n", 
+   RowBox[{
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{"MatrixQ", "[", "gridCopy", "]"}], ",", 
+      RowBox[{"ArrayPlot", "[", 
+       RowBox[{"gridCopy", ",", 
+        RowBox[{"ColorFunction", "->", "\"\<TemperatureMap\>\""}], ",", 
+        RowBox[{"PlotRange", "->", 
+         RowBox[{"{", 
+          RowBox[{"0", ",", "2"}], "}"}]}]}], "]"}], ",", 
+      RowBox[{
+      "Print", "[", "\"\<Error: gridCopy is not a 2D list\>\"", "]"}]}], 
+     "]"}], ";"}], "\[IndentingNewLine]", "\n", 
+   RowBox[{"ClearAll", "[", "\"\<Global`*\>\"", "]"}]}]}]], "Input",
+ CellChangeTimes->{{3.933515254008772*^9, 3.9335152603873463`*^9}, 
+   3.933515532372633*^9, 3.93351566691551*^9, {3.9335214280510025`*^9, 
+   3.933521431169426*^9}, {3.9335218290642147`*^9, 3.9335219097399597`*^9}, {
+   3.933522176866194*^9, 3.9335222582234135`*^9}, {3.933522498185871*^9, 
+   3.9335225011184425`*^9}, {3.933523230408539*^9, 3.9335232688392925`*^9}, {
+   3.9335233933519516`*^9, 3.9335233951022434`*^9}, {3.9335236076897697`*^9, 
+   3.933523622214178*^9}, 3.9335236686180935`*^9, {3.933523716697212*^9, 
+   3.9335237172553005`*^9}, 3.933526286930565*^9, {3.933526452524584*^9, 
+   3.9335265212322464`*^9}, {3.9335265720641537`*^9, 3.933526578629572*^9}, {
+   3.933526719233717*^9, 3.9335267220451813`*^9}, {3.933526754533022*^9, 
+   3.9335267986506176`*^9}, {3.9335269122229614`*^9, 
+   3.9335269291780663`*^9}, {3.9335270651389008`*^9, 3.933527066597971*^9}, {
+   3.9335271664100227`*^9, 3.9335272018804436`*^9}, {3.9335272948928967`*^9, 
+   3.933527310679262*^9}, {3.9335274081557865`*^9, 3.9335274438527794`*^9}, {
+   3.933527627953232*^9, 3.9335276293801746`*^9}, {3.9335277752898273`*^9, 
+   3.9335277841013393`*^9}, {3.933527880385706*^9, 3.9335278838830166`*^9}, {
+   3.9335279725709057`*^9, 3.933527997623831*^9}, {3.933528113278572*^9, 
+   3.933528157937372*^9}, {3.933528255855921*^9, 3.9335283097372475`*^9}, {
+   3.933528424018429*^9, 3.933528482630007*^9}, {3.933528598930668*^9, 
+   3.9335286197393665`*^9}, {3.9335287635223694`*^9, 3.933528802820841*^9}, {
+   3.933528960419338*^9, 3.93352896178039*^9}, {3.933529124145479*^9, 
+   3.933529130861351*^9}, {3.9335293048623943`*^9, 3.9335293675630913`*^9}, {
+   3.933529641241415*^9, 3.9335296653950977`*^9}, {3.933529822924444*^9, 
+   3.9335298249607773`*^9}, {3.933529963372368*^9, 3.933529964740757*^9}, {
+   3.9335301137790546`*^9, 3.933530115396698*^9}, {3.9335302565901527`*^9, 
+   3.933530302896044*^9}, {3.9335305126499176`*^9, 3.9335305637935066`*^9}, {
+   3.9335309701291103`*^9, 3.9335310040771885`*^9}, {3.9335311513892574`*^9, 
+   3.9335312117326145`*^9}, {3.9335328599722195`*^9, 
+   3.9335328615314713`*^9}, {3.9335330387722225`*^9, 
+   3.9335330432000713`*^9}, {3.9335331355413017`*^9, 3.933533136954439*^9}, {
+   3.9335332179288692`*^9, 3.933533219197706*^9}, {3.933533324114214*^9, 
+   3.933533337691822*^9}},
+ CellLabel->"In[65]:=",ExpressionUUID->"5f3d6599-ffcc-774e-9ba6-fd6cc148815c"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Dimensions of gridCopy before manipulation: \"\>", 
+   "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"5", ",", "5"}], "}"}]}],
+  SequenceForm["Dimensions of gridCopy before manipulation: ", {5, 5}],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.9335283346161346`*^9, 3.933528500616932*^9, 
+  3.9335286346330013`*^9, 3.9335288144134846`*^9, 3.933528980249098*^9, 
+  3.9335291484175777`*^9, 3.9335293799503098`*^9, 3.933529678025261*^9, 
+  3.9335298336477184`*^9, 3.9335299723750343`*^9, 3.9335301270364647`*^9, 
+  3.933530316708828*^9, 3.9335305732929153`*^9, 3.9335310126607494`*^9, 
+  3.9335312232546463`*^9, 3.9335327316093426`*^9, 3.933532870517315*^9, 
+  3.9335329234994946`*^9, 3.933533052734249*^9, 3.9335331449747543`*^9, 
+  3.933533233465481*^9, 3.933533345684107*^9},
+ CellLabel->
+  "During evaluation of \
+In[65]:=",ExpressionUUID->"484c197a-6c50-3d43-a64d-5d6031955587"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Dimensions of gridCopy after manipulation: \"\>", 
+   "\[InvisibleSpace]", 
+   RowBox[{"{", 
+    RowBox[{"5", ",", "5"}], "}"}]}],
+  SequenceForm["Dimensions of gridCopy after manipulation: ", {5, 5}],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.9335283346161346`*^9, 3.933528500616932*^9, 
+  3.9335286346330013`*^9, 3.9335288144134846`*^9, 3.933528980249098*^9, 
+  3.9335291484175777`*^9, 3.9335293799503098`*^9, 3.933529678025261*^9, 
+  3.9335298336477184`*^9, 3.9335299723750343`*^9, 3.9335301270364647`*^9, 
+  3.933530316708828*^9, 3.9335305732929153`*^9, 3.9335310126607494`*^9, 
+  3.9335312232546463`*^9, 3.9335327316093426`*^9, 3.933532870517315*^9, 
+  3.9335329234994946`*^9, 3.933533052734249*^9, 3.9335331449747543`*^9, 
+  3.933533233465481*^9, 3.9335333456916275`*^9},
+ CellLabel->
+  "During evaluation of \
+In[65]:=",ExpressionUUID->"294c532a-c3a7-1c4f-8c8a-c8b26c9c4548"]
+}, Open  ]],
+
+Cell[OutputFormData["\<\
+DynamicModule[{step = 0, gridCopy = {{1.91953261716312, 1.5797750806682611, \
+0.2502209497863426, 0.170074310658054, 1.2005891174693848}, 
+     {1.8922822480464365, 1.7687405369520506, 0.05599880236397148, \
+0.7272610652056009, 0.928239482414575}, 
+     {1.7709418095443903, 0.5303708517026964, 0.949872533906019, \
+0.48566466513139517, 0.2618956929037983}, 
+     {0.13444328902391378, 1.3743948450336059, 0.5261757019486435, \
+1.70859528198929, 1.3183607954978829}, 
+     {0.10415320760523894, 0.9936328288571379, 1.9121222367562525, \
+1.6218645491667973, 1.9003721672184954}}}, 
+  Column[{Button[\"Next Step\", gridCopy = Map[Clip[#1 + RandomReal[{-0.1, \
+0.1}], {0, 2}] & , gridCopy, {2}]; step++, Appearance -> Automatic, 
+     Evaluator -> Automatic, Method -> \"Preemptive\"], \
+Dynamic[ArrayPlot[gridCopy, ColorFunction -> \"TemperatureMap\", PlotRange -> \
+{0, 2}]], 
+    Dynamic[step, ImageSizeCache -> {135.8017541885376, {2.6025389861315498, \
+9.48974581528455}}]}, ItemSize -> {Automatic, Automatic}], 
+  DynamicModuleValues :> {}]\
+\>", "\<\
+DynamicModule[{step = 0, gridCopy = 
+ 
+    {{1.91953, 1.57978, 0.250221, 0.170074, 1.20059}, {1.89228, 1.76874, \
+0.0559988, 0.727261, 0.928239}, 
+ 
+     {1.77094, 0.530371, 0.949873, 0.485665, 0.261896}, {0.134443, 1.37439, \
+0.526176, 1.7086, 1.31836}, 
+ 
+     {0.104153, 0.993633, 1.91212, 1.62186, 1.90037}}}, Column[{Button[Next \
+Step, 
+ 
+     gridCopy = Map[Clip[#1 + RandomReal[{-0.1, 0.1}], {0, 2}] & , gridCopy, \
+{2}]; step++, Appearance -> Automatic, Evaluator -> Automatic, 
+ 
+     Method -> Preemptive], Dynamic[ArrayPlot[gridCopy, ColorFunction -> \
+TemperatureMap, PlotRange -> {0, 2}]], 
+ 
+    Dynamic[step, ImageSizeCache -> {135.802, {2.60254, 9.48975}}]}, ItemSize \
+-> {Automatic, Automatic}], DynamicModuleValues :> {}]\
+\>"], "Output",
+ CellChangeTimes->{{3.933533052756586*^9, 3.9335330626721973`*^9}, {
+  3.93353314499378*^9, 3.933533155851671*^9}, {3.933533233487007*^9, 
+  3.9335332562691383`*^9}, {3.933533345705122*^9, 3.9335333548535213`*^9}},
+ CellLabel->"Out[73]=",ExpressionUUID->"9c9d408a-141f-6b45-bdb0-b40bca97c584"]
+}, Open  ]],
+
+Cell[OutputFormData["\<\
+Null\
+\>", "\<\
+Null\
+\>"], "Input",
+ CellChangeTimes->{3.9335225332781353`*^9, 3.9335226039611893`*^9, 
+  3.9335329067138577`*^9},ExpressionUUID->"d4796c1f-1cda-9549-bccb-\
+4dfcf79f7f89"]
+},
+WindowSize->{1141.2, 573.6},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"14.1 for Microsoft Windows (64-bit) (July 16, 2024)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"47a72248-5a4a-4240-a917-a1eb86c8b02e"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[576, 22, 11614, 271, 713, "Input",ExpressionUUID->"5f3d6599-ffcc-774e-9ba6-fd6cc148815c"],
+Cell[CellGroupData[{
+Cell[12215, 297, 940, 18, 22, "Print",ExpressionUUID->"484c197a-6c50-3d43-a64d-5d6031955587"],
+Cell[13158, 317, 940, 18, 22, "Print",ExpressionUUID->"294c532a-c3a7-1c4f-8c8a-c8b26c9c4548"]
+}, Open  ]],
+Cell[14113, 338, 2132, 43, 158, "Output",ExpressionUUID->"9c9d408a-141f-6b45-bdb0-b40bca97c584"]
+}, Open  ]],
+Cell[16260, 384, 213, 7, 33, "Input",ExpressionUUID->"d4796c1f-1cda-9549-bccb-4dfcf79f7f89"]
+}
+]
+*)
+

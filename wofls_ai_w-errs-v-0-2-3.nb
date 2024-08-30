@@ -1,0 +1,144 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[      4775,        134]
+NotebookOptionsPosition[      4400,        120]
+NotebookOutlinePosition[      4818,        136]
+CellTagsIndexPosition[      4775,        133]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"Import", " ", "the", " ", "WAV", " ", "file"}], "*)"}], 
+  RowBox[{
+   RowBox[{
+    RowBox[{"audio", "=", 
+     RowBox[{"Import", "[", 
+      RowBox[{
+      "\"\<C:\\\\Users\\\\User\\\\Desktop\\\\wolfram_projects\\\\choirtest.\
+wav\>\"", ",", "\"\<Audio\>\""}], "]"}]}], ";"}], "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Convert", " ", "audio", " ", "to", " ", "an", " ", "array", " ", "of", 
+     " ", "samples"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"audioData", "=", 
+     RowBox[{"AudioData", "[", "audio", "]"}]}], ";"}], "\[IndentingNewLine]",
+    "\n", 
+   RowBox[{"(*", 
+    RowBox[{"Check", " ", "the", " ", "length", " ", "of", " ", "audioData"}],
+     "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<Length of audioData: \>\"", ",", 
+      RowBox[{"Length", "[", "audioData", "]"}]}], "]"}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Reshape", " ", "or", " ", "process", " ", "the", " ", "audioData", " ", 
+     "as", " ", "needed", " ", "for", " ", "your", " ", "model"}], "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"reshapedAudioData", "=", 
+     RowBox[{"Partition", "[", 
+      RowBox[{"audioData", ",", "10"}], "]"}]}], ";"}], "  ", 
+   RowBox[{"(*", 
+    RowBox[{"Adjust", " ", "as", " ", "needed"}], "*)"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{"Check", " ", "the", " ", "reshapedAudioData"}], "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<Sample of reshapedAudioData: \>\"", ",", 
+      RowBox[{"Take", "[", 
+       RowBox[{"reshapedAudioData", ",", "5"}], "]"}]}], "]"}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Evaluate", " ", "the", " ", "network", " ", "with", " ", "the", " ", 
+     "reshaped", " ", "audio", " ", "data"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"output", "=", 
+     RowBox[{"net", "[", "reshapedAudioData", "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Convert", " ", "the", " ", "output", " ", "back", " ", "to", " ", "a", 
+     " ", "single", " ", "audio", " ", "signal"}], "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"outputAudioData", "=", 
+     RowBox[{"Flatten", "[", "output", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Create", " ", "a", " ", "new", " ", "Audio", " ", "object", " ", "from", 
+     " ", "the", " ", "processed", " ", "data"}], "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"outputAudio", "=", 
+     RowBox[{"Audio", "[", 
+      RowBox[{"outputAudioData", ",", 
+       RowBox[{"AudioSampleRate", "[", "audio", "]"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Export", " ", "the", " ", "processed", " ", "audio", " ", "to", " ", "a",
+      " ", "new", " ", "WAV", " ", "file"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Export", "[", 
+     RowBox[{
+     "\"\<C:\\\\Users\\\\User\\\\Desktop\\\\wolfram_projects\\\\guesstest.wav\
+\>\"", ",", "outputAudio"}], "]"}], ";"}], "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Generate", " ", "a", " ", "spectrogram", " ", "of", " ", "the", " ", 
+     "processed", " ", "audio"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"spectrogram", "=", 
+     RowBox[{"Spectrogram", "[", "outputAudio", "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{"Display", " ", "the", " ", "spectrogram"}], "*)"}], 
+   "\[IndentingNewLine]", "spectrogram", "\n"}]}]], "Input",
+ CellChangeTimes->{{3.933005993653244*^9, 
+  3.933005993655241*^9}},ExpressionUUID->"be39ddf6-68ee-8d46-8b69-\
+7a78d05113ac"]
+},
+WindowSize->{582.6, 488.4},
+WindowMargins->{{Automatic, 205.20000000000005`}, {Automatic, 0}},
+FrontEndVersion->"14.1 for Microsoft Windows (64-bit) (July 16, 2024)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"ce88ce0d-4779-154c-8ecf-3d1e18f3c598"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[554, 20, 3842, 98, 770, "Input",ExpressionUUID->"be39ddf6-68ee-8d46-8b69-7a78d05113ac"]
+}
+]
+*)
+
+(* End of internal cache information *)
+

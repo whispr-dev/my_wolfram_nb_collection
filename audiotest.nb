@@ -1,0 +1,344 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[     14351,        334]
+NotebookOptionsPosition[     13659,        315]
+NotebookOutlinePosition[     14077,        331]
+CellTagsIndexPosition[     14034,        328]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"Import", " ", "the", " ", "WAV", " ", "file"}], "*)"}], 
+  RowBox[{
+   RowBox[{
+    RowBox[{"audio", "=", 
+     RowBox[{"Import", "[", 
+      RowBox[{
+      "\"\<C:\\\\Users\\\\User\\\\Desktop\\\\wolfram_projects\\\\choirtest.\
+wav\>\"", ",", "\"\<Audio\>\""}], "]"}]}], ";"}], "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Check", " ", "the", " ", "duration", " ", "of", " ", "the", " ", 
+     "audio"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<Duration of audio: \>\"", ",", 
+      RowBox[{"AudioLength", "[", "audio", "]"}], ",", "\"\< seconds\>\""}], 
+     "]"}], ";"}], "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Play", " ", "the", " ", "audio", " ", "to", " ", "verify", " ", "its", 
+     " ", "content"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"AudioPlay", "[", "audio", "]"}], "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Convert", " ", "audio", " ", "to", " ", "an", " ", "array", " ", "of", 
+     " ", "samples"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"audioData", "=", 
+     RowBox[{"AudioData", "[", "audio", "]"}]}], ";"}], "\[IndentingNewLine]",
+    "\n", 
+   RowBox[{"(*", 
+    RowBox[{"Check", " ", "the", " ", "length", " ", "of", " ", "audioData"}],
+     "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Print", "[", 
+     RowBox[{"\"\<Length of audioData: \>\"", ",", 
+      RowBox[{"Length", "[", "audioData", "]"}]}], "]"}], ";"}], 
+   "\n"}]}]], "Input",
+ CellChangeTimes->{{3.933006197707073*^9, 3.9330061977084713`*^9}},
+ CellLabel->"In[96]:=",ExpressionUUID->"d840ab7a-84bf-1645-a224-e26d5091eb1f"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Duration of audio: \"\>", "\[InvisibleSpace]", 
+   TemplateBox[{"1440000", "\"samples\"", "samples", "\"Samples\""},
+    "Quantity"], "\[InvisibleSpace]", "\<\" seconds\"\>"}],
+  SequenceForm["Duration of audio: ", 
+   Quantity[1440000, "Samples"], " seconds"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.933006203209072*^9},
+ CellLabel->
+  "During evaluation of \
+In[96]:=",ExpressionUUID->"94a6f959-a0a1-a840-b195-cb5e984f955a"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{
+   TagBox["AudioStream",
+    "SummaryHead"], "[", 
+   DynamicModuleBox[{Typeset`open$$ = False, Typeset`embedState$$ = "Ready"}, 
+    TemplateBox[{
+      PaneSelectorBox[{False -> GridBox[{{
+            PaneBox[
+             ButtonBox[
+              DynamicBox[
+               FEPrivate`FrontEndResource["FEBitmaps", "SummaryBoxOpener"], 
+               ImageSizeCache -> {
+                10.869016023673117`, {0., 10.869016023673117`}}], Appearance -> 
+              None, BaseStyle -> {}, 
+              ButtonFunction :> (Typeset`open$$ = True), Evaluator -> 
+              Automatic, Method -> "Preemptive"], 
+             Alignment -> {Center, Center}, ImageSize -> 
+             Dynamic[{
+               Automatic, 
+                3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+                 Magnification])}]], 
+            GraphicsBox[{
+              Thickness[0.041666666666666664`], 
+              FaceForm[{
+                RGBColor[
+                0.5333333333333333, 0.5333333333333333, 0.5333333333333333], 
+                Opacity[1.]}], 
+              
+              FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}}}, {{{4., 
+               10.5}, {5.0009999999999994`, 10.5}, {5.0009999999999994`, 
+               14.5}, {4., 14.5}}}], 
+              
+              FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}}}, {{{2., 
+               10.5}, {3., 10.5}, {3., 14.5}, {2., 14.5}}}], 
+              
+              FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}}}, {{{0., 
+               9.5}, {1., 9.5}, {1., 15.499}, {0., 15.499}}}], 
+              
+              FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}}}, {{{6., 
+               6.5}, {7., 6.5}, {7., 18.500999999999998`}, {6., 
+               18.500999999999998`}}}], 
+              
+              FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}}}, {{{10., 
+               7.5}, {11., 7.5}, {11., 17.5}, {10., 17.5}}}], 
+              
+              FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}}}, {{{8., 
+               10.5}, {9., 10.5}, {9., 14.5}, {8., 14.5}}}], 
+              
+              FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}}}, {{{12., 
+               3.5}, {13., 3.5}, {13., 21.5}, {12., 21.5}}}], 
+              
+              FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}}}, {{{16., 
+               8.5}, {17., 8.5}, {17., 16.5}, {16., 16.5}}}], 
+              
+              FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}}}, {{{14., 
+               6.5}, {15., 6.5}, {15., 18.500999999999998`}, {14., 
+               18.500999999999998`}}}], 
+              
+              FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}}}, {{{20., 
+               11.5}, {21., 11.5}, {21., 13.5}, {20., 13.5}}}], 
+              
+              FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}}}, {{{22., 
+               9.5}, {23.001, 9.5}, {23.001, 15.499}, {22., 15.499}}}], 
+              
+              FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}}}, {{{18., 
+               10.5}, {19., 10.5}, {19., 14.5}, {18., 14.5}}}]}, Selectable -> 
+             False, AspectRatio -> Automatic, Background -> None, 
+             BaseStyle -> {CacheGraphics -> False}, ImageSize -> 
+             Dynamic[{
+               Automatic, (3.5 CurrentValue["FontCapHeight"])/
+                AbsoluteCurrentValue[Magnification]}], 
+             PlotRange -> {{0., 24.}, {0., 24.}}], 
+            GridBox[{{
+               RowBox[{
+                 TagBox["\"ID: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox[
+                 "\"3d437574-19ec-45fe-bb65-9dfe7bd7b459\"", 
+                  "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"Status: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox[
+                  DynamicBox[
+                   ToBoxes[
+                    Audio`AudioStreamBoxDump`status[
+                    
+                    AudioStream[<|
+                    "ID" -> "3d437574-19ec-45fe-bb65-9dfe7bd7b459"|>]], 
+                    StandardForm], 
+                   ImageSizeCache -> {
+                    55.93398532867431, {6.27529296875, 10.92470703125}}, 
+                   Initialization :> (
+                    Audio`AudioStreamInternals`audioStreamBox; Null)], 
+                  "SummaryItem"]}]}}, AutoDelete -> False, 
+             BaseStyle -> {
+              ShowStringCharacters -> False, NumberMarks -> False, 
+               PrintPrecision -> 3, ShowSyntaxStyles -> False}, 
+             GridBoxAlignment -> {
+              "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, 
+             GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+             GridBoxSpacings -> {
+              "Columns" -> {{2}}, "Rows" -> {{Automatic}}}]}}, AutoDelete -> 
+          False, BaselinePosition -> {1, 1}, 
+          GridBoxAlignment -> {"Columns" -> {{Left}}, "Rows" -> {{Top}}}, 
+          GridBoxItemSize -> {
+           "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}], True -> 
+        GridBox[{{
+            PaneBox[
+             ButtonBox[
+              DynamicBox[
+               FEPrivate`FrontEndResource["FEBitmaps", "SummaryBoxCloser"]], 
+              Appearance -> None, BaseStyle -> {}, 
+              ButtonFunction :> (Typeset`open$$ = False), Evaluator -> 
+              Automatic, Method -> "Preemptive"], 
+             Alignment -> {Center, Center}, ImageSize -> 
+             Dynamic[{
+               Automatic, 
+                3.5 (CurrentValue["FontCapHeight"]/AbsoluteCurrentValue[
+                 Magnification])}]], 
+            GraphicsBox[{
+              Thickness[0.041666666666666664`], 
+              FaceForm[{
+                RGBColor[
+                0.5333333333333333, 0.5333333333333333, 0.5333333333333333], 
+                Opacity[1.]}], 
+              
+              FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}}}, {{{4., 
+               10.5}, {5.0009999999999994`, 10.5}, {5.0009999999999994`, 
+               14.5}, {4., 14.5}}}], 
+              
+              FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}}}, {{{2., 
+               10.5}, {3., 10.5}, {3., 14.5}, {2., 14.5}}}], 
+              
+              FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}}}, {{{0., 
+               9.5}, {1., 9.5}, {1., 15.499}, {0., 15.499}}}], 
+              
+              FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}}}, {{{6., 
+               6.5}, {7., 6.5}, {7., 18.500999999999998`}, {6., 
+               18.500999999999998`}}}], 
+              
+              FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}}}, {{{10., 
+               7.5}, {11., 7.5}, {11., 17.5}, {10., 17.5}}}], 
+              
+              FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}}}, {{{8., 
+               10.5}, {9., 10.5}, {9., 14.5}, {8., 14.5}}}], 
+              
+              FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}}}, {{{12., 
+               3.5}, {13., 3.5}, {13., 21.5}, {12., 21.5}}}], 
+              
+              FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}}}, {{{16., 
+               8.5}, {17., 8.5}, {17., 16.5}, {16., 16.5}}}], 
+              
+              FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}}}, {{{14., 
+               6.5}, {15., 6.5}, {15., 18.500999999999998`}, {14., 
+               18.500999999999998`}}}], 
+              
+              FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}}}, {{{20., 
+               11.5}, {21., 11.5}, {21., 13.5}, {20., 13.5}}}], 
+              
+              FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}}}, {{{22., 
+               9.5}, {23.001, 9.5}, {23.001, 15.499}, {22., 15.499}}}], 
+              
+              FilledCurveBox[{{{0, 2, 0}, {0, 1, 0}, {0, 1, 0}}}, {{{18., 
+               10.5}, {19., 10.5}, {19., 14.5}, {18., 14.5}}}]}, Selectable -> 
+             False, AspectRatio -> Automatic, Background -> None, 
+             BaseStyle -> {CacheGraphics -> False}, ImageSize -> 
+             Dynamic[{
+               Automatic, (3.5 CurrentValue["FontCapHeight"])/
+                AbsoluteCurrentValue[Magnification]}], 
+             PlotRange -> {{0., 24.}, {0., 24.}}], 
+            GridBox[{{
+               RowBox[{
+                 TagBox["\"ID: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox[
+                 "\"3d437574-19ec-45fe-bb65-9dfe7bd7b459\"", 
+                  "SummaryItem"]}]}, {
+               RowBox[{
+                 TagBox["\"Status: \"", "SummaryItemAnnotation"], 
+                 "\[InvisibleSpace]", 
+                 TagBox[
+                  DynamicBox[
+                   ToBoxes[
+                    Audio`AudioStreamBoxDump`status[
+                    
+                    AudioStream[<|
+                    "ID" -> "3d437574-19ec-45fe-bb65-9dfe7bd7b459"|>]], 
+                    StandardForm], 
+                   Initialization :> (
+                    Audio`AudioStreamInternals`audioStreamBox; Null)], 
+                  "SummaryItem"]}]}, {
+               TagBox[
+                DynamicBox[
+                 ToBoxes[
+                  Audio`AudioStreamBoxDump`properties[
+                   
+                   AudioStream[<|
+                    "ID" -> "3d437574-19ec-45fe-bb65-9dfe7bd7b459"|>]], 
+                  StandardForm]], "SummaryItem"]}}, AutoDelete -> False, 
+             BaseStyle -> {
+              ShowStringCharacters -> False, NumberMarks -> False, 
+               PrintPrecision -> 3, ShowSyntaxStyles -> False}, 
+             GridBoxAlignment -> {
+              "Columns" -> {{Left}}, "Rows" -> {{Automatic}}}, 
+             GridBoxItemSize -> {
+              "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}, 
+             GridBoxSpacings -> {
+              "Columns" -> {{2}}, "Rows" -> {{Automatic}}}]}}, AutoDelete -> 
+          False, BaselinePosition -> {1, 1}, 
+          GridBoxAlignment -> {"Columns" -> {{Left}}, "Rows" -> {{Top}}}, 
+          GridBoxItemSize -> {
+           "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}]}, 
+       Dynamic[Typeset`open$$], ImageSize -> Automatic]},
+     "SummaryPanel"],
+    DynamicModuleValues:>{}], "]"}],
+  AudioStream[<|"ID" -> "3d437574-19ec-45fe-bb65-9dfe7bd7b459"|>],
+  Editable->False,
+  SelectWithContents->True,
+  Selectable->False]], "Output",
+ CellChangeTimes->{3.9330062043906612`*^9},
+ CellLabel->"Out[98]=",ExpressionUUID->"e941b668-01b1-6446-803e-f0362cd26c59"],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Length of audioData: \"\>", "\[InvisibleSpace]", "2"}],
+  SequenceForm["Length of audioData: ", 2],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.9330062044292316`*^9},
+ CellLabel->
+  "During evaluation of \
+In[96]:=",ExpressionUUID->"5c291dfd-4cb3-004c-9e9a-430f902e351a"]
+}, Open  ]]
+},
+WindowSize->{582.6, 488.4},
+WindowMargins->{{Automatic, 205.20000000000005`}, {Automatic, 0}},
+FrontEndVersion->"14.1 for Microsoft Windows (64-bit) (July 16, 2024)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"b1700584-626a-f84c-ad75-2bf539aa414e"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[576, 22, 1721, 42, 351, "Input",ExpressionUUID->"d840ab7a-84bf-1645-a224-e26d5091eb1f"],
+Cell[2300, 66, 487, 11, 27, "Print",ExpressionUUID->"94a6f959-a0a1-a840-b195-cb5e984f955a"],
+Cell[2790, 79, 10523, 223, 64, "Output",ExpressionUUID->"e941b668-01b1-6446-803e-f0362cd26c59"],
+Cell[13316, 304, 327, 8, 22, "Print",ExpressionUUID->"5c291dfd-4cb3-004c-9e9a-430f902e351a"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
+

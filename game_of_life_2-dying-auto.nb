@@ -1,0 +1,242 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[      9085,        234]
+NotebookOptionsPosition[      8577,        217]
+NotebookOutlinePosition[      8997,        233]
+CellTagsIndexPosition[      8954,        230]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+   "Initialize", " ", "grid", " ", "and", " ", "steps", " ", "within", " ", 
+    "DynamicModule"}], "*)"}], 
+  RowBox[{
+   RowBox[{
+    RowBox[{"gridSize", "=", "50"}], ";"}], " ", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{
+     "Set", " ", "to", " ", "a", " ", "smaller", " ", "size", " ", "for", " ",
+       "better", " ", "visualization"}], ",", 
+     RowBox[{"adjust", " ", "as", " ", "needed"}]}], "*)"}], "\n", 
+   RowBox[{
+    RowBox[{"numSteps", "=", "10"}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{"DynamicModule", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"grid", ",", 
+       RowBox[{"step", "=", "0"}], ",", 
+       RowBox[{"updateInterval", "=", "0.5"}]}], "}"}], ",", 
+     RowBox[{"(*", 
+      RowBox[{
+      "Initialize", " ", "grid", " ", "with", " ", "random", " ", "values"}], 
+      "*)"}], 
+     RowBox[{
+      RowBox[{"grid", "=", 
+       RowBox[{"RandomInteger", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"0", ",", "1"}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"gridSize", ",", "gridSize"}], "}"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"(*", 
+       RowBox[{"Define", " ", 
+        RowBox[{"Conway", "'"}], "s", " ", "Game", " ", "of", " ", "Life", 
+        " ", "rules"}], "*)"}], 
+      RowBox[{
+       RowBox[{"conwayRules", "[", "grid_", "]"}], ":=", 
+       RowBox[{"Module", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"neighbors", ",", "newGrid"}], "}"}], ",", 
+         RowBox[{
+          RowBox[{"newGrid", "=", "grid"}], ";", "\[IndentingNewLine]", 
+          RowBox[{"(*", 
+           RowBox[{
+           "Calculate", " ", "the", " ", "number", " ", "of", " ", "live", 
+            " ", "neighbors", " ", "for", " ", "each", " ", "cell"}], "*)"}], 
+          RowBox[{"neighbors", "=", 
+           RowBox[{"ListCorrelate", "[", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"{", 
+                RowBox[{"1", ",", "1", ",", "1"}], "}"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"1", ",", "0", ",", "1"}], "}"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"1", ",", "1", ",", "1"}], "}"}]}], "}"}], ",", 
+             "grid", ",", 
+             RowBox[{"{", 
+              RowBox[{"2", ",", "2"}], "}"}], ",", "0"}], "]"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"(*", 
+           RowBox[{"Apply", " ", "the", " ", "rules"}], "*)"}], 
+          RowBox[{"Do", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"newGrid", "[", 
+              RowBox[{"[", 
+               RowBox[{"i", ",", "j"}], "]"}], "]"}], "=", 
+             RowBox[{"If", "[", 
+              RowBox[{
+               RowBox[{
+                RowBox[{
+                 RowBox[{"grid", "[", 
+                  RowBox[{"[", 
+                   RowBox[{"i", ",", "j"}], "]"}], "]"}], "==", "1"}], "&&", 
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"neighbors", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "j"}], "]"}], "]"}], "==", "2"}], "||", 
+                  RowBox[{
+                   RowBox[{"neighbors", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "j"}], "]"}], "]"}], "==", "3"}]}], 
+                 ")"}]}], ",", "1", ",", 
+               RowBox[{"If", "[", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"grid", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "j"}], "]"}], "]"}], "==", "0"}], "&&", 
+                  RowBox[{
+                   RowBox[{"neighbors", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "j"}], "]"}], "]"}], "==", "3"}]}], ",",
+                  "1", ",", "0"}], "]"}]}], "]"}]}], ",", 
+            RowBox[{"{", 
+             RowBox[{"i", ",", "gridSize"}], "}"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"j", ",", "gridSize"}], "}"}]}], "]"}], ";", 
+          "\[IndentingNewLine]", "newGrid"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"(*", 
+       RowBox[{
+       "Use", " ", "Dynamic", " ", "with", " ", "Clock", " ", "to", " ", 
+        "update", " ", "the", " ", "grid", " ", "automatically"}], "*)"}], 
+      RowBox[{"Dynamic", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"grid", "=", 
+          RowBox[{"conwayRules", "[", "grid", "]"}]}], ";", 
+         RowBox[{"step", "++"}], ";", 
+         RowBox[{"(*", 
+          RowBox[{"Update", " ", "grid", " ", "and", " ", "step"}], "*)"}], 
+         RowBox[{"ArrayPlot", "[", 
+          RowBox[{"grid", ",", 
+           RowBox[{"ColorRules", "->", 
+            RowBox[{"{", 
+             RowBox[{
+              RowBox[{"1", "->", "Black"}], ",", 
+              RowBox[{"0", "->", "White"}]}], "}"}]}], ",", 
+           RowBox[{"PlotRange", "->", 
+            RowBox[{"{", 
+             RowBox[{
+              RowBox[{"{", 
+               RowBox[{"0", ",", 
+                RowBox[{"gridSize", "+", "1"}]}], "}"}], ",", 
+              RowBox[{"{", 
+               RowBox[{"0", ",", 
+                RowBox[{"gridSize", "+", "1"}]}], "}"}]}], "}"}]}], ",", 
+           RowBox[{"Frame", "->", "False"}], ",", 
+           RowBox[{"PixelConstrained", "->", "True"}], ",", 
+           RowBox[{"ImageSize", "->", "Medium"}]}], "]"}]}], ",", 
+        RowBox[{"(*", 
+         RowBox[{
+         "Ensures", " ", "the", " ", "plot", " ", "is", " ", "displayed"}], 
+         "*)"}], 
+        RowBox[{"UpdateInterval", "->", "updateInterval"}]}], " ", 
+       RowBox[{"(*", 
+        RowBox[{
+        "Set", " ", "update", " ", "interval", " ", "for", " ", "automatic", 
+         " ", "updates"}], "*)"}], "]"}]}], ",", 
+     RowBox[{"Initialization", ":>", 
+      RowBox[{"(", 
+       RowBox[{"grid", "=", 
+        RowBox[{"RandomInteger", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"0", ",", "1"}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"gridSize", ",", "gridSize"}], "}"}]}], "]"}]}], ")"}]}]}],
+     "]"}], "\n", "\n", "\n", "\n"}]}]], "Input",
+ CellChangeTimes->{{3.9338048246586475`*^9, 3.933804824659645*^9}, {
+   3.933804893781807*^9, 3.9338049184293785`*^9}, {3.933804961273411*^9, 
+   3.933804962058325*^9}, {3.9338049965096226`*^9, 3.9338049978857536`*^9}, 
+   3.9338051166758595`*^9, 3.933805298648731*^9, 3.933805467468977*^9, 
+   3.9338057034276905`*^9, 3.9338057492587204`*^9},
+ CellLabel->"In[38]:=",ExpressionUUID->"0bc31ef7-62c4-4c4a-bbd6-4d4a346492a8"],
+
+Cell[BoxData[
+ DynamicModuleBox[{$CellContext`grid$$ = CompressedData["
+1:eJxTTMoPSmJiYGAwgmLyAOOg1EGi+YyMcHJwAdKdRFNPMJJsB9k6BgbQMQ2Q
+bBMj6WFDoh0U5kyibCNdBwnqkG3BqwWLgQTsGMjCgQzvk15ukKqBpoAM52PT
+gi87D/kwGlBAk4ISxUxGJJKKOlC1I+ugWV2LJaxoZRcAmykCYQ==
+  "], $CellContext`step$$ = 1207, $CellContext`updateInterval$$ = 0.5}, 
+  DynamicBox[
+   ToBoxes[$CellContext`grid$$ = \
+$CellContext`conwayRules[$CellContext`grid$$]; Increment[$CellContext`step$$]; 
+    ArrayPlot[$CellContext`grid$$, ColorRules -> {1 -> Black, 0 -> White}, 
+      PlotRange -> {{0, $CellContext`gridSize + 1}, {
+        0, $CellContext`gridSize + 1}}, Frame -> False, PixelConstrained -> 
+      True, ImageSize -> Medium], StandardForm],
+   ImageSizeCache->{350., {172.13403328722342`, 177.86596671277658`}},
+   UpdateInterval->0.5],
+  DynamicModuleValues:>{},
+  Initialization:>($CellContext`grid$$ = 
+   RandomInteger[{0, 
+     1}, {$CellContext`gridSize, $CellContext`gridSize}])]], "Output",
+ CellChangeTimes->{
+  3.9338048334044437`*^9, {3.9338048997181587`*^9, 3.933804925704693*^9}, 
+   3.9338049713580704`*^9, 3.9338051246320477`*^9, 3.933805307114975*^9, {
+   3.9338054767996235`*^9, 3.9338055134437447`*^9}, 3.9338057116615353`*^9, 
+   3.933805757891098*^9},
+ CellLabel->"Out[40]=",ExpressionUUID->"a5ec2b7a-0538-ae49-8cd0-d920e3f2a189"]
+}, Open  ]]
+},
+WindowSize->{582.6, 488.4},
+WindowMargins->{{279, Automatic}, {Automatic, 40.199999999999996`}},
+FrontEndVersion->"14.1 for Microsoft Windows (64-bit) (July 16, 2024)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"ac669094-c47a-884e-bdf3-8751b5cf66f2"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[576, 22, 6666, 166, 713, "Input",ExpressionUUID->"0bc31ef7-62c4-4c4a-bbd6-4d4a346492a8"],
+Cell[7245, 190, 1316, 24, 386, "Output",ExpressionUUID->"a5ec2b7a-0538-ae49-8cd0-d920e3f2a189"]
+}, Open  ]]
+}
+]
+*)
+

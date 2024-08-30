@@ -1,0 +1,414 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[     15817,        404]
+NotebookOptionsPosition[     14806,        381]
+NotebookOutlinePosition[     15244,        398]
+CellTagsIndexPosition[     15201,        395]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"Fuzzy", " ", "Logic", " ", "Layer"}], "*)"}], 
+  RowBox[{
+   RowBox[{
+    RowBox[{"fuzzyLogicLayer", "=", 
+     RowBox[{"NetChain", "[", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"LinearLayer", "[", "10", "]"}], ",", "LogisticSigmoid"}], 
+       "}"}], "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"centralGanglion", "=", 
+     RowBox[{"NetGraph", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"\"\<FuzzyLogic\>\"", "->", 
+          RowBox[{"NetChain", "[", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"LinearLayer", "[", "10", "]"}], ",", 
+             "LogisticSigmoid"}], "}"}], "]"}]}], ",", 
+         RowBox[{"\"\<Crosstalk\>\"", "->", 
+          RowBox[{"NetMapOperator", "[", 
+           RowBox[{"LinearLayer", "[", "10", "]"}], "]"}]}], ",", 
+         RowBox[{"\"\<Add\>\"", "->", 
+          RowBox[{"ThreadingLayer", "[", 
+           RowBox[{"Plus", ",", "1"}], "]"}]}]}], "  ", 
+        RowBox[{"(*", 
+         RowBox[{"Adding", " ", "broadcasting", " ", "integer"}], "*)"}], 
+        "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"\"\<FuzzyLogic\>\"", "->", "\"\<Add\>\""}], ",", 
+         RowBox[{"\"\<Crosstalk\>\"", "->", 
+          RowBox[{"\"\<Add\>\"", "->", 
+           RowBox[{"NetPort", "[", "\"\<Output\>\"", "]"}]}]}]}], "}"}]}], 
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{"Updated", " ", "RNN", " ", "Model"}], "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"rnnModel", "=", 
+     RowBox[{"NetChain", "[", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"GatedRecurrentLayer", "[", "20", "]"}], ",", 
+        RowBox[{"LinearLayer", "[", "10", "]"}]}], "}"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{"Kohonen", " ", "SOM"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"kohonenSOMLayer", "=", 
+     RowBox[{"NetChain", "[", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"LinearLayer", "[", "10", "]"}], ",", 
+        RowBox[{"(*", 
+         RowBox[{
+         "Replace", " ", "with", " ", "actual", " ", "Kohonen", " ", 
+          "logic"}], "*)"}], "LogisticSigmoid"}], "}"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{"Corrected", " ", "LSTM", " ", "Model"}], "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"lstmModel", "=", 
+     RowBox[{"NetChain", "[", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"LongShortTermMemoryLayer", "[", "20", "]"}], ",", 
+        RowBox[{"(*", 
+         RowBox[{"Corrected", " ", "LSTM", " ", "Layer"}], "*)"}], 
+        RowBox[{"LinearLayer", "[", "10", "]"}]}], "}"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Updated", " ", "Generator", " ", "with", " ", "explicit", " ", "merging",
+      " ", "of", " ", "outputs"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"generator", "=", 
+     RowBox[{"NetGraph", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"\"\<RNN\>\"", "->", "rnnModel"}], ",", 
+         RowBox[{"\"\<SOM\>\"", "->", "kohonenSOMLayer"}], ",", 
+         RowBox[{"\"\<LSTM\>\"", "->", "lstmModel"}], ",", 
+         RowBox[{"\"\<Catenate\>\"", "->", 
+          RowBox[{"CatenateLayer", "[", "]"}]}], ",", 
+         RowBox[{"(*", 
+          RowBox[{
+           RowBox[{"Merge", " ", "RNN"}], ",", "SOM", ",", 
+           RowBox[{"and", " ", "LSTM", " ", "outputs"}]}], "*)"}], 
+         RowBox[{"\"\<Ganglion\>\"", "->", "centralGanglion"}], ",", 
+         RowBox[{"\"\<Combine\>\"", "->", 
+          RowBox[{"CatenateLayer", "[", "]"}]}], ",", 
+         RowBox[{"\"\<FC\>\"", "->", 
+          RowBox[{"LinearLayer", "[", "10", "]"}]}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"NetPort", "[", "\"\<Input\>\"", "]"}], "->", 
+          RowBox[{"{", 
+           RowBox[{"\"\<RNN\>\"", ",", "\"\<SOM\>\"", ",", "\"\<LSTM\>\""}], 
+           "}"}]}], ",", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"\"\<RNN\>\"", ",", "\"\<SOM\>\"", ",", "\"\<LSTM\>\""}], 
+           "}"}], "->", 
+          RowBox[{"\"\<Catenate\>\"", "->", 
+           RowBox[{"\"\<Ganglion\>\"", "->", 
+            RowBox[{"\"\<Combine\>\"", "->", 
+             RowBox[{"\"\<FC\>\"", "->", 
+              RowBox[{"NetPort", "[", "\"\<Output\>\"", "]"}]}]}]}]}]}]}], 
+        "}"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Updated", " ", "Discriminator", " ", "with", " ", "explicit", " ", 
+     "merging", " ", "of", " ", "outputs"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"discriminator", "=", 
+     RowBox[{"NetGraph", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"\"\<RNN\>\"", "->", "rnnModel"}], ",", 
+         RowBox[{"\"\<SOM\>\"", "->", "kohonenSOMLayer"}], ",", 
+         RowBox[{"\"\<LSTM\>\"", "->", "lstmModel"}], ",", 
+         RowBox[{"\"\<Catenate\>\"", "->", 
+          RowBox[{"CatenateLayer", "[", "]"}]}], ",", 
+         RowBox[{"(*", 
+          RowBox[{
+           RowBox[{"Merge", " ", "RNN"}], ",", "SOM", ",", 
+           RowBox[{"and", " ", "LSTM", " ", "outputs"}]}], "*)"}], 
+         RowBox[{"\"\<Ganglion\>\"", "->", "centralGanglion"}], ",", 
+         RowBox[{"\"\<Combine\>\"", "->", 
+          RowBox[{"CatenateLayer", "[", "]"}]}], ",", 
+         RowBox[{"\"\<FC\>\"", "->", 
+          RowBox[{"LinearLayer", "[", "1", "]"}]}], ",", 
+         RowBox[{"\"\<Sigmoid\>\"", "->", "LogisticSigmoid"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"NetPort", "[", "\"\<Input\>\"", "]"}], "->", 
+          RowBox[{"{", 
+           RowBox[{"\"\<RNN\>\"", ",", "\"\<SOM\>\"", ",", "\"\<LSTM\>\""}], 
+           "}"}]}], ",", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"\"\<RNN\>\"", ",", "\"\<SOM\>\"", ",", "\"\<LSTM\>\""}], 
+           "}"}], "->", 
+          RowBox[{"\"\<Catenate\>\"", "->", 
+           RowBox[{"\"\<Ganglion\>\"", "->", 
+            RowBox[{"\"\<Combine\>\"", "->", 
+             RowBox[{"\"\<FC\>\"", "->", 
+              RowBox[{"\"\<Sigmoid\>\"", "->", 
+               RowBox[{"NetPort", "[", "\"\<Output\>\"", "]"}]}]}]}]}]}]}]}], 
+        "}"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Manually", " ", "initialize", " ", "weights", " ", "and", " ", "biases", 
+     " ", "with", " ", "specified", " ", "input", " ", "size"}], "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"net", "=", 
+     RowBox[{"NetChain", "[", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"LinearLayer", "[", 
+         RowBox[{"10", ",", 
+          RowBox[{"\"\<Input\>\"", "->", "10"}], ",", 
+          RowBox[{"(*", 
+           RowBox[{"Specify", " ", "input", " ", "size", " ", "here"}], 
+           "*)"}], 
+          RowBox[{"\"\<Weights\>\"", "->", 
+           RowBox[{"RandomReal", "[", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"-", "0.1"}], ",", "0.1"}], "}"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"10", ",", "10"}], "}"}]}], "]"}]}], ",", 
+          RowBox[{"\"\<Biases\>\"", "->", 
+           RowBox[{"RandomReal", "[", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"-", "0.1"}], ",", "0.1"}], "}"}], ",", 
+             RowBox[{"{", "10", "}"}]}], "]"}]}]}], "]"}], ",", 
+        "LogisticSigmoid"}], "}"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\n", 
+   RowBox[{"(*", 
+    RowBox[{"Import", " ", "the", " ", "WAV", " ", "file"}], "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"audio", "=", 
+     RowBox[{"Import", "[", 
+      RowBox[{
+      "\"\<C:\\\\Users\\\\User\\\\Desktop\\\\wolfram_projects\\\\choirtest.\
+wav\>\"", ",", "\"\<Audio\>\""}], "]"}]}], ";"}], "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Convert", " ", "audio", " ", "to", " ", "an", " ", "array", " ", "of", 
+     " ", "samples"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"audioData", "=", 
+     RowBox[{"AudioData", "[", "audio", "]"}]}], ";"}], "\[IndentingNewLine]",
+    "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Reshape", " ", "or", " ", "process", " ", "the", " ", "audioData", " ", 
+     "as", " ", "needed", " ", "for", " ", "your", " ", "model"}], "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"reshapedAudioData", "=", 
+     RowBox[{"Partition", "[", 
+      RowBox[{"audioData", ",", "10"}], "]"}]}], ";"}], "  ", 
+   RowBox[{"(*", 
+    RowBox[{"Adjust", " ", "as", " ", "needed"}], "*)"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Evaluate", " ", "the", " ", "network", " ", "with", " ", "the", " ", 
+     "reshaped", " ", "audio", " ", "data"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"output", "=", 
+     RowBox[{"net", "[", "reshapedAudioData", "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Convert", " ", "the", " ", "output", " ", "back", " ", "to", " ", "a", 
+     " ", "single", " ", "audio", " ", "signal"}], "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"outputAudioData", "=", 
+     RowBox[{"Flatten", "[", "output", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Create", " ", "a", " ", "new", " ", "Audio", " ", "object", " ", "from", 
+     " ", "the", " ", "processed", " ", "data"}], "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"outputAudio", "=", 
+     RowBox[{"Audio", "[", 
+      RowBox[{"outputAudioData", ",", 
+       RowBox[{"AudioSampleRate", "[", "audio", "]"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Export", " ", "the", " ", "processed", " ", "audio", " ", "to", " ", "a",
+      " ", "new", " ", "WAV", " ", "file"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Export", "[", 
+     RowBox[{
+     "\"\<C:\\\\Users\\\\User\\\\Desktop\\\\wolfram_projects\\\\guesstest.wav\
+\>\"", ",", "outputAudio"}], "]"}], ";"}], "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Generate", " ", "a", " ", "spectrogram", " ", "of", " ", "the", " ", 
+     "processed", " ", "audio"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"spectrogram", "=", 
+     RowBox[{"Spectrogram", "[", "outputAudio", "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{"Display", " ", "the", " ", "spectrogram"}], "*)"}], 
+   "\[IndentingNewLine]", "spectrogram", "\n"}]}]], "Input",
+ CellChangeTimes->{{3.93300587381336*^9, 3.9330058738143597`*^9}},
+ CellLabel->"In[60]:=",ExpressionUUID->"a2cfc871-ace8-9542-a12f-95565ee98962"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "NetChain", "invindata1", 
+   "\"Data supplied to \\!\\(\\*RowBox[{\\\"\\\\\\\"port \
+\\\\\\\\\\\\\\\"Input\\\\\\\\\\\\\\\"\\\\\\\"\\\"}]\\) was \
+\\!\\(\\*RowBox[{\\\"\\\\\\\"a length-0 vector of real \
+numbers\\\\\\\"\\\"}]\\), but expected \\!\\(\\*RowBox[{\\\"\\\\\\\"a \
+length-10 vector\\\\\\\"\\\"}]\\).\"", 2, 71, 42, 23861912739993412805, 
+   "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9330058965838146`*^9},
+ CellLabel->
+  "During evaluation of \
+In[60]:=",ExpressionUUID->"57e9c707-6de9-4b46-b2f1-636fe311e5db"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Flatten", "normal", 
+   "\"Nonatomic expression expected at position \
+\\!\\(\\*RowBox[{\\\"1\\\"}]\\) in \\!\\(\\*RowBox[{\\\"Flatten\\\", \
+\\\"[\\\", \\\"$Failed\\\", \\\"]\\\"}]\\).\"", 2, 72, 43, 
+   23861912739993412805, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9330058966193333`*^9},
+ CellLabel->
+  "During evaluation of \
+In[60]:=",ExpressionUUID->"2f588a2e-3117-8e49-a020-f09e4f3d6faf"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Audio", "audiodtype", 
+   "\"The specified data type \\!\\(\\*TemplateBox[List[\\\"48000\\\", \\\"\\\
+\\\\\"Hz\\\\\\\"\\\", \\\"hertz\\\", \\\"\\\\\\\"Hertz\\\\\\\"\\\"], \
+\\\"Quantity\\\", Rule[SyntaxForm, Mod]]\\) should be either \
+\\\"SignedInteger8\\\", \\\"SignedInteger16\\\", \\\"SignedInteger32\\\", \
+\\\"Real32\\\", or \\\"Real64\\\".\"", 2, 73, 44, 23861912739993412805, 
+   "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.933005896636341*^9},
+ CellLabel->
+  "During evaluation of \
+In[60]:=",ExpressionUUID->"a796e145-c2c1-c14a-a932-ddcec02254e7"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Export", "nodta", 
+   "\"\\!\\(\\*RowBox[{\\\"Audio\\\", \\\"[\\\", \
+RowBox[{RowBox[{\\\"Flatten\\\", \\\"[\\\", \\\"$Failed\\\", \\\"]\\\"}], \
+\\\",\\\", TemplateBox[List[\\\"48000\\\", \\\"\\\\\\\"Hz\\\\\\\"\\\", \
+\\\"hertz\\\", \\\"\\\\\\\"Hertz\\\\\\\"\\\"], \\\"Quantity\\\", \
+Rule[SyntaxForm, Mod]]}], \\\"]\\\"}]\\) contains no data that can be \
+exported to the \\!\\(\\*RowBox[{\\\"\\\\\\\"WAV\\\\\\\"\\\"}]\\) format.\"", 
+   2, 74, 45, 23861912739993412805, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.9330058966538486`*^9},
+ CellLabel->
+  "During evaluation of \
+In[60]:=",ExpressionUUID->"8184cc67-00c3-8845-96a7-897803f06308"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Spectrogram", "data", 
+   "\"\\!\\(\\*RowBox[{\\\"Audio\\\", \\\"[\\\", \
+RowBox[{RowBox[{\\\"Flatten\\\", \\\"[\\\", \\\"$Failed\\\", \\\"]\\\"}], \
+\\\",\\\", TemplateBox[List[\\\"48000\\\", \\\"\\\\\\\"Hz\\\\\\\"\\\", \
+\\\"hertz\\\", \\\"\\\\\\\"Hertz\\\\\\\"\\\"], \\\"Quantity\\\", \
+Rule[SyntaxForm, Mod]]}], \\\"]\\\"}]\\) is not a real-valued vector.\"", 2, 
+   75, 46, 23861912739993412805, "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.933005896668194*^9},
+ CellLabel->
+  "During evaluation of \
+In[60]:=",ExpressionUUID->"9013da7a-3447-a040-bc64-c041c49b5a37"],
+
+Cell[BoxData[
+ RowBox[{"Spectrogram", "[", 
+  RowBox[{"Audio", "[", 
+   RowBox[{
+    RowBox[{"Flatten", "[", "$Failed", "]"}], ",", 
+    TemplateBox[{"48000", "\"Hz\"", "hertz", "\"Hertz\""},
+     "Quantity"]}], "]"}], "]"}]], "Output",
+ CellChangeTimes->{3.9330058966817093`*^9},
+ CellLabel->"Out[76]=",ExpressionUUID->"051e67cf-15b6-6445-92ed-31762fa41fbe"]
+}, Open  ]]
+},
+WindowSize->{582.6, 489},
+WindowMargins->{{
+  Automatic, 223.20000000000005`}, {-16.799999999999955`, Automatic}},
+FrontEndVersion->"14.1 for Microsoft Windows (64-bit) (July 16, 2024)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"659f221f-be4f-aa4e-adf1-b9344a1a57c0"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[576, 22, 10846, 272, 1740, "Input",ExpressionUUID->"a2cfc871-ace8-9542-a12f-95565ee98962"],
+Cell[11425, 296, 582, 13, 44, "Message",ExpressionUUID->"57e9c707-6de9-4b46-b2f1-636fe311e5db"],
+Cell[12010, 311, 458, 11, 26, "Message",ExpressionUUID->"2f588a2e-3117-8e49-a020-f09e4f3d6faf"],
+Cell[12471, 324, 617, 13, 44, "Message",ExpressionUUID->"a796e145-c2c1-c14a-a932-ddcec02254e7"],
+Cell[13091, 339, 704, 14, 46, "Message",ExpressionUUID->"8184cc67-00c3-8845-96a7-897803f06308"],
+Cell[13798, 355, 630, 13, 27, "Message",ExpressionUUID->"9013da7a-3447-a040-bc64-c041c49b5a37"],
+Cell[14431, 370, 359, 8, 34, "Output",ExpressionUUID->"051e67cf-15b6-6445-92ed-31762fa41fbe"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
+

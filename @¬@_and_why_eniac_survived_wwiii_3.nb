@@ -1,0 +1,380 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[     16175,        370]
+NotebookOptionsPosition[     15777,        355]
+NotebookOutlinePosition[     16215,        372]
+CellTagsIndexPosition[     16172,        369]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{
+         "To", " ", "plot", " ", "all", " ", "the", " ", "waveforms", " ", 
+          "you", " ", "mentioned"}], ",", 
+         RowBox[{
+          RowBox[{"including", " ", "through"}], "-", 
+          RowBox[{"zero", " ", "FM"}]}], ",", "FM", ",", 
+         RowBox[{
+         "and", " ", "fields", " ", "related", " ", "to", " ", "electric", 
+          " ", "and", " ", "magnetic", " ", "phenomena"}], ",", 
+         RowBox[{
+         "we", " ", "need", " ", "to", " ", "carefully", " ", "define", " ", 
+          "each", " ", "waveform", " ", "and", " ", "field", " ", 
+          "expression", " ", "in", " ", 
+          RowBox[{"Mathematica", ".", 
+           RowBox[{"Let", "'"}]}], "s", " ", "define", " ", "these", " ", 
+          "expressions", " ", "in", " ", "Mathematica"}], ",", 
+         RowBox[{
+          RowBox[{"ensuring", " ", "they", " ", 
+           RowBox[{"don", "'"}], "t", " ", "conflict", " ", "with", " ", 
+           "built"}], "-", 
+          RowBox[{"in", " ", "functions"}]}], ",", 
+         RowBox[{
+          RowBox[{"and", " ", "plot", " ", "them", " ", "all", " ", 
+           RowBox[{"together", ".", "Step"}]}], "-", "by", "-", 
+          RowBox[{"Step", " ", "Solution"}]}]}], "\n", 
+        RowBox[{
+         RowBox[{
+         "Define", " ", "All", " ", "Waveforms", " ", "and", " ", "Fields", 
+          " ", 
+          RowBox[{"Properly", ":", 
+           RowBox[{"Basic", " ", "Sine", " ", "Wave"}], ":", 
+           RowBox[{
+           "Simple", " ", "sine", " ", "wave", " ", "with", " ", "a", " ", 
+            "specific", " ", 
+            RowBox[{"frequency", ".", "Offset"}], " ", "Sine", " ", 
+            RowBox[{"Wave", ":", 
+             RowBox[{
+             "Sine", " ", "wave", " ", "shifted", " ", "by", " ", "a", " ", 
+              "DC", " ", 
+              RowBox[{"offset", ".", "Amplitude"}], " ", "Modulation", " ", 
+              RowBox[{"(", "AM", ")"}]}], ":", 
+             RowBox[{
+             "Modulation", " ", "where", " ", "the", " ", "amplitude", " ", 
+              "of", " ", "a", " ", "carrier", " ", "wave", " ", "is", " ", 
+              "varied", " ", "according", " ", "to", " ", "a", " ", 
+              RowBox[{"signal", ".", "Frequency"}], " ", "Modulation", " ", 
+              RowBox[{"(", "FM", ")"}]}], ":", 
+             RowBox[{
+              RowBox[{
+              "Modulation", " ", "where", " ", "the", " ", "frequency", " ", 
+               "of", " ", "a", " ", "carrier", " ", "wave", " ", "is", " ", 
+               "varied", " ", "according", " ", "to", " ", "a", " ", 
+               RowBox[{"signal", ".", "Through"}]}], "-", 
+              RowBox[{"Zero", " ", "Frequency", " ", "Modulation", " ", 
+               RowBox[{"(", "TZFM", ")"}]}]}], ":", 
+             RowBox[{
+             "A", " ", "type", " ", "of", " ", "FM", " ", "where", " ", "the",
+               " ", "frequency", " ", "modulation", " ", "can", " ", "go", 
+              " ", "through", " ", "zero"}]}]}]}]}], ",", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"reversing", " ", "the", " ", 
+            RowBox[{"phase", ".", "Electric"}], " ", "and", " ", "Magnetic", 
+            " ", 
+            RowBox[{"Fields", ":", 
+             RowBox[{
+             "These", " ", "are", " ", "generally", " ", "sinusoidal", " ", 
+              "functions", " ", "representing", " ", "varying", " ", 
+              "electric", " ", "and", " ", "magnetic", " ", "fields", " ", 
+              "in", " ", "a", " ", 
+              RowBox[{"medium", ".", "Implement"}], " ", "Each", " ", "in", 
+              " ", "Mathematica", " ", "Code"}], ":", "\[IndentingNewLine]", 
+             RowBox[{"(*", 
+              RowBox[{
+              "Define", " ", "parameters", " ", "for", " ", "all", " ", 
+               "waveforms"}], "*)"}], "\[Omega]c"}]}], "=", 
+           RowBox[{"2", "*", "\[Pi]"}]}], ";"}]}], "     ", 
+        RowBox[{"(*", 
+         RowBox[{
+         "Carrier", " ", "angular", " ", "frequency", " ", "for", " ", "AM", 
+          " ", "and", " ", "FM"}], "*)"}], "\n", 
+        RowBox[{
+         RowBox[{"\[Omega]m", "=", "\[Pi]"}], ";"}], "         ", 
+        RowBox[{"(*", 
+         RowBox[{
+         "Modulation", " ", "angular", " ", "frequency", " ", "for", " ", 
+          "AM", " ", "and", " ", "FM"}], "*)"}], "\n", 
+        RowBox[{
+         RowBox[{"m", "=", "0.5"}], ";"}], "        ", 
+        RowBox[{"(*", 
+         RowBox[{"Modulation", " ", "index", " ", "for", " ", "AM"}], "*)"}], 
+        "\n", 
+        RowBox[{
+         RowBox[{"\[Beta]", "=", "1"}], ";"}], "          ", 
+        RowBox[{"(*", 
+         RowBox[{"Modulation", " ", "index", " ", "for", " ", "FM"}], "*)"}], 
+        "\n", 
+        RowBox[{
+         RowBox[{"B0", "=", "1"}], ";"}], "         ", 
+        RowBox[{"(*", 
+         RowBox[{
+         "Amplitude", " ", "of", " ", "the", " ", "magnetic", " ", "field"}], 
+         "*)"}], "\n", 
+        RowBox[{
+         RowBox[{"E0", "=", "1"}], ";"}], "         ", 
+        RowBox[{"(*", 
+         RowBox[{
+         "Amplitude", " ", "of", " ", "the", " ", "electric", " ", "field"}], 
+         "*)"}], "\n", "\[IndentingNewLine]", 
+        RowBox[{"(*", 
+         RowBox[{
+         "Define", " ", "unique", " ", "functions", " ", "for", " ", "each", 
+          " ", "waveform", " ", "or", " ", "field"}], "*)"}], 
+        "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"basicSineWave", "[", "t_", "]"}], ":=", 
+          RowBox[{"Sin", "[", 
+           RowBox[{"\[Omega]c", "*", "t"}], "]"}]}], ";"}], " ", 
+        RowBox[{"(*", 
+         RowBox[{"Simple", " ", "sine", " ", "wave"}], "*)"}], 
+        "\[IndentingNewLine]", "\n", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"offsetSineWave", "[", "t_", "]"}], ":=", 
+          RowBox[{"1", "+", 
+           RowBox[{"Sin", "[", 
+            RowBox[{"\[Omega]c", "*", "t"}], "]"}]}]}], ";"}], " ", 
+        RowBox[{"(*", 
+         RowBox[{"Offset", " ", "sine", " ", "wave"}], "*)"}], 
+        "\[IndentingNewLine]", "\n", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"amplitudeModulated", "[", "t_", "]"}], ":=", 
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{"1", "+", 
+             RowBox[{"m", "*", 
+              RowBox[{"Cos", "[", 
+               RowBox[{"\[Omega]m", "*", "t"}], "]"}]}]}], ")"}], "*", 
+           RowBox[{"Cos", "[", 
+            RowBox[{"\[Omega]c", "*", "t"}], "]"}]}]}], ";"}], " ", 
+        RowBox[{"(*", 
+         RowBox[{"AM", " ", "signal"}], "*)"}], "\[IndentingNewLine]", "\n", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"frequencyModulated", "[", "t_", "]"}], ":=", 
+          RowBox[{"Sin", "[", 
+           RowBox[{
+            RowBox[{"\[Omega]c", "*", "t"}], "+", 
+            RowBox[{"\[Beta]", "*", 
+             RowBox[{"Sin", "[", 
+              RowBox[{"\[Omega]m", "*", "t"}], "]"}]}]}], "]"}]}], ";"}], " ", 
+        RowBox[{"(*", 
+         RowBox[{"FM", " ", "signal"}], "*)"}], "\[IndentingNewLine]", "\n", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"throughZeroFMSignal", "[", "t_", "]"}], ":=", 
+          RowBox[{"Sin", "[", 
+           RowBox[{
+            RowBox[{"\[Omega]c", "*", "t"}], "+", 
+            RowBox[{"\[Beta]", "*", 
+             RowBox[{"Sin", "[", 
+              RowBox[{"\[Omega]m", "*", "t"}], "]"}]}], "+", "\[Pi]"}], 
+           "]"}]}], ";"}], " ", 
+        RowBox[{"(*", 
+         RowBox[{"Through", "-", 
+          RowBox[{"zero", " ", "FM"}]}], "*)"}], "\n", "\[IndentingNewLine]", 
+        RowBox[{"(*", 
+         RowBox[{"Define", " ", "fields"}], "*)"}], "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"electricField", "[", "t_", "]"}], ":=", 
+          RowBox[{"E0", "*", 
+           RowBox[{"Sin", "[", 
+            RowBox[{"\[Omega]c", "*", "t"}], "]"}]}]}], ";"}], " ", 
+        RowBox[{"(*", 
+         RowBox[{"Sinusoidal", " ", "electric", " ", "field"}], "*)"}], 
+        "\[IndentingNewLine]", "\n", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"magneticField", "[", "t_", "]"}], ":=", 
+          RowBox[{"B0", "*", 
+           RowBox[{"Cos", "[", 
+            RowBox[{"\[Omega]c", "*", "t"}], "]"}]}]}], ";"}], " ", 
+        RowBox[{"(*", 
+         RowBox[{"Sinusoidal", " ", "magnetic", " ", "field"}], "*)"}], 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"(*", 
+         RowBox[{
+         "Plot", " ", "all", " ", "waveforms", " ", "and", " ", "fields", " ",
+           "together", " ", "for", " ", "comparison"}], "*)"}], "\n", 
+        RowBox[{"Plot", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"basicSineWave", "[", "t", "]"}], ",", 
+            RowBox[{"offsetSineWave", "[", "t", "]"}], ",", 
+            RowBox[{"amplitudeModulated", "[", "t", "]"}], ",", 
+            RowBox[{"frequencyModulated", "[", "t", "]"}], ",", 
+            RowBox[{"throughZeroFMSignal", "[", "t", "]"}], ",", 
+            RowBox[{"electricField", "[", "t", "]"}], ",", 
+            RowBox[{"magneticField", "[", "t", "]"}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"t", ",", "0", ",", "10"}], "}"}], ",", 
+          RowBox[{"(*", 
+           RowBox[{"Time", " ", "range", " ", "for", " ", "plotting"}], 
+           "*)"}], 
+          RowBox[{"PlotRange", "->", "All"}], ",", 
+          RowBox[{"PlotLabels", "->", 
+           RowBox[{"{", 
+            RowBox[{
+            "\"\<Basic Sine Wave\>\"", ",", "\"\<Offset Sine Wave\>\"", ",", 
+             "\"\<AM Signal\>\"", ",", "\"\<FM Signal\>\"", ",", 
+             "\"\<Through-Zero FM\>\"", ",", "\"\<Electric Field\>\"", ",", 
+             "\"\<Magnetic Field\>\""}], "}"}]}], ",", 
+          RowBox[{"PlotStyle", "->", 
+           RowBox[{"{", 
+            RowBox[{
+            "Blue", ",", "Dashed", ",", "Dotted", ",", "Thick", ",", "Dashed",
+              ",", "DotDashed", ",", "Dashed"}], "}"}]}], ",", 
+          RowBox[{"AxesLabel", "->", 
+           RowBox[{"{", 
+            RowBox[{"\"\<Time (t)\>\"", ",", "\"\<Amplitude\>\""}], "}"}]}], 
+          ",", 
+          RowBox[{"PlotLegends", "->", "\"\<Expressions\>\""}], ",", 
+          RowBox[{"ImageSize", "->", "Large"}]}], "]"}], 
+        "\[IndentingNewLine]", "\n", 
+        RowBox[{"Explanation", ":", 
+         RowBox[{
+         "Basic", " ", "and", " ", "Offset", " ", "Sine", " ", 
+          "WaveletScalogram"}]}], "\[IndentingNewLine]", 
+        RowBox[{
+        "These", " ", "are", " ", "simple", " ", "sine", " ", "wave", " ", 
+         "and", " ", "a", " ", "sine", " ", "wave", " ", "shifted", " ", 
+         "verticall"}], "\[IndentingNewLine]", 
+        RowBox[{"by", " ", "an", " ", 
+         RowBox[{
+         "offset", ".", "\[IndentingNewLine]", "\[IndentingNewLine]", "AM"}], 
+         " ", "and", " ", "FMSignal", " ", 
+         RowBox[{"Signals", ":", "\[IndentingNewLine]", 
+          RowBox[{"AM", " ", "Signal"}], ":", 
+          RowBox[{"The", " ", "carrier", " ", 
+           RowBox[{"signal", "'"}], "s", " ", "amplitude", " ", "is", " ", 
+           "modulated", " ", "by", " ", "a", " ", "sine", " ", "wave", " ", 
+           "of", " ", "modulation", " ", "frequency", " ", 
+           RowBox[{
+           "\[Omega]m", ".", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+            "FMSignal"}], " ", 
+           RowBox[{"Signal", ":", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"The", " ", "carrier", " ", 
+              RowBox[{"signal", "'"}], "s", " ", "frequency", " ", "is", " ", 
+              "modulated", " ", "by", " ", "a", " ", "sine", " ", "wave", " ",
+               "of", " ", "modulation", " ", "frequency", " ", 
+              RowBox[{
+              "\[Omega]m", ".", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+               "Through"}]}], "-", 
+             RowBox[{"Zero", " ", "FM", " ", "AMSignal"}]}]}]}]}]}], 
+        "\[IndentingNewLine]", 
+        RowBox[{
+        "A", " ", "special", " ", "form", " ", "of", " ", "FM", " ", "where", 
+         " ", "the", " ", "modulation", " ", "can", " ", "cause"}], " ", 
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{
+         "ThermodynamicData", " ", "frequency", " ", "to", " ", "go", " ", 
+          "through", " ", "zero"}], ",", 
+         RowBox[{
+         "potentially", " ", "reversing", " ", "the", " ", "signal"}]}]}], 
+       "\[CloseCurlyQuote]"}], "s", " ", 
+      RowBox[{"phase", ".", "Electric"}], " ", "and"}], " ", 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"MagneticFields", ":", 
+       RowBox[{
+       "These", " ", "are", " ", "sinusoidal", " ", "fields", " ", 
+        "representing", " ", "variations", " ", "in", " ", "electric", " ", 
+        "and", " ", "magnetic", " ", "fields"}]}], ",", " ", 
+      RowBox[{
+      "typically", " ", "encountered", " ", "in", " ", "electromagnetic", " ",
+        "wave", " ", 
+       RowBox[{"theory", ".", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+        RowBox[{"Plotting", ":", 
+         RowBox[{
+         "We", " ", "use", " ", "Plot", " ", "to", " ", "graph", " ", "all", 
+          " ", "waveforms", " ", "on", " ", "the", " ", "same", " ", "set", 
+          " ", "of", " ", "axes"}]}]}]}], ",", 
+      RowBox[{"allowing", " ", "for", " ", "direct", " ", "visual", " ", 
+       RowBox[{"comparison", ".", "This"}], " ", "helps", " ", "in", " ", 
+       "understanding", " ", "how", " ", "each", " ", "waveform", " ", 
+       "behaves", " ", "over", " ", 
+       RowBox[{"time", ".", "Troubleshooting"}]}]}], " ", 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"Tips", ":", 
+      RowBox[{"Ensure", " ", "Unique", " ", "Function", " ", "Names"}], ":", 
+      RowBox[{
+       RowBox[{"-", " ", "Avoid"}], " ", "conflicts", " ", "with", " ", 
+       "Mathematica"}]}]}], "\[CloseCurlyQuote]"}], "s", " ", "protected", 
+   " ", "functions", " ", "by", " ", "using", " ", "unique", " ", 
+   RowBox[{"names", ".", "\[IndentingNewLine]", 
+    RowBox[{"-", " ", "Check"}]}], " ", 
+   RowBox[{"Parameters", ":", 
+    RowBox[{
+    "Make", " ", "sure", " ", "all", " ", "variables", " ", "and", " ", 
+     "constants", " ", "are", " ", "defined", " ", 
+     RowBox[{"properly", ".", "Adjust"}], " ", "Plot", " ", "Range"}]}]}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"Modify", " ", 
+  RowBox[{"{", 
+   RowBox[{"t", ",", "0", ",", "10"}], "}"}], " ", "as", " ", "needed", " ", 
+  "to", " ", "view", " ", "more", " ", "or", " ", "less", " ", "of", " ", 
+  "the", " ", 
+  RowBox[{"waveforms", ".", "\[IndentingNewLine]", "Refine"}], " ", "Plot", 
+  " ", 
+  RowBox[{"Styles", ":", 
+   RowBox[{
+   "Customize", " ", "PlotStyle", " ", "to", " ", "differentiate", " ", 
+    "between", " ", "the", " ", "different", " ", "waveforms", " ", "and", 
+    " ", "fields", " ", 
+    RowBox[{"clearly", "."}]}]}]}]}], "Input",
+ CellChangeTimes->{{3.93343348976268*^9, 3.933433504966566*^9}, {
+  3.9334335412940884`*^9, 
+  3.933433742639532*^9}},ExpressionUUID->"ecd5b738-d2cb-ae4d-8103-\
+ab4cfc70c43c"]
+},
+WindowSize->{582.6, 488.4},
+WindowMargins->{{
+  Automatic, 243.60000000000002`}, {-5.399999999999977, Automatic}},
+FrontEndVersion->"14.1 for Microsoft Windows (64-bit) (July 16, 2024)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"83c47630-b125-2041-8f49-b3e4d809b6d9"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[554, 20, 15219, 333, 1854, "Input",ExpressionUUID->"ecd5b738-d2cb-ae4d-8103-ab4cfc70c43c"]
+}
+]
+*)
+
+(* End of internal cache information *)
+

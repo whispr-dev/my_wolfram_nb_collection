@@ -1,0 +1,339 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[     11371,        329]
+NotebookOptionsPosition[     10991,        315]
+NotebookOutlinePosition[     11411,        331]
+CellTagsIndexPosition[     11368,        328]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"FuzzyLogicLayer", "[", 
+    RowBox[{"input_", ",", "weights_", ",", "bias_"}], "]"}], ":=", 
+   RowBox[{"Sigmoid", "[", 
+    RowBox[{
+     RowBox[{"Dot", "[", 
+      RowBox[{"input", ",", "weights"}], "]"}], "+", "bias"}], "]"}]}], 
+  "\[IndentingNewLine]"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"rnn", "=", 
+    RowBox[{"NetChain", "[", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"BasicRNNLayer", "[", 
+        RowBox[{"\"\<HiddenSize\>\"", "->", "20"}], "]"}], ",", 
+       RowBox[{"LinearLayer", "[", "1", "]"}]}], "}"}], "]"}]}], ";"}], 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"Initialize", " ", "the", " ", "SOM", " ", "weight", " ", "map"}], 
+   "*)"}], 
+  RowBox[{
+   RowBox[{"initializeWeights", "[", 
+    RowBox[{"mapSize_", ",", "inputSize_"}], "]"}], ":=", 
+   RowBox[{"RandomReal", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"0", ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"mapSize", ",", "mapSize", ",", "inputSize"}], "}"}]}], "]"}]}],
+   "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+   "Euclidean", " ", "distance", " ", "between", " ", "two", " ", "vectors"}],
+    "*)"}], 
+  RowBox[{
+   RowBox[{"euclideanDistance", "[", 
+    RowBox[{"x_", ",", "y_"}], "]"}], ":=", 
+   RowBox[{"Norm", "[", 
+    RowBox[{"x", "-", "y"}], "]"}]}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"Find", " ", "the", " ", "Best", " ", "Matching", " ", "Unit", " ", 
+    RowBox[{"(", "BMU", ")"}]}], "*)"}], 
+  RowBox[{
+   RowBox[{"findBMU", "[", 
+    RowBox[{"inputVector_", ",", "weights_"}], "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", "distances", "}"}], ",", 
+     RowBox[{
+      RowBox[{"distances", "=", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"euclideanDistance", "[", 
+          RowBox[{"inputVector", ",", "#"}], "]"}], "&"}], "/@", 
+        RowBox[{"Flatten", "[", 
+         RowBox[{"weights", ",", "1"}], "]"}]}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"Position", "[", 
+        RowBox[{"distances", ",", 
+         RowBox[{"Min", "[", "distances", "]"}], ",", "1", ",", "1"}], "]"}], 
+       "[", 
+       RowBox[{"[", "1", "]"}], "]"}]}]}], "]"}]}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"Update", " ", "weights", " ", "of", " ", "the", " ", "neurons"}], 
+   "*)"}], 
+  RowBox[{
+   RowBox[{"updateWeights", "[", 
+    RowBox[{
+    "weights_", ",", "inputVector_", ",", "bmuIndex_", ",", "iteration_", ",",
+      "maxIterations_", ",", "mapSize_", ",", "learningRate_", ",", 
+     "sigma_"}], "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "influence", ",", "learningRateDecay", ",", "distanceToBMU", ",", 
+       "neighborhoodRadius", ",", "influenceFactor"}], "}"}], ",", 
+     RowBox[{
+      RowBox[{"learningRateDecay", "=", 
+       RowBox[{"learningRate", "*", 
+        RowBox[{"Exp", "[", 
+         RowBox[{
+          RowBox[{"-", "iteration"}], "/", "maxIterations"}], "]"}]}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"neighborhoodRadius", "=", 
+       RowBox[{"sigma", "*", 
+        RowBox[{"Exp", "[", 
+         RowBox[{
+          RowBox[{"-", "iteration"}], "/", "maxIterations"}], "]"}]}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"Table", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"distanceToBMU", "=", 
+          RowBox[{"euclideanDistance", "[", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{"i", ",", "j"}], "}"}], ",", "bmuIndex"}], "]"}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"influenceFactor", "=", 
+          RowBox[{"Exp", "[", 
+           RowBox[{
+            RowBox[{"-", 
+             RowBox[{"distanceToBMU", "^", "2"}]}], "/", 
+            RowBox[{"(", 
+             RowBox[{"2", "*", 
+              RowBox[{"neighborhoodRadius", "^", "2"}]}], ")"}]}], "]"}]}], 
+         ";", "\[IndentingNewLine]", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{"distanceToBMU", "<=", "neighborhoodRadius"}], ",", 
+           RowBox[{
+            RowBox[{"weights", "[", 
+             RowBox[{"[", 
+              RowBox[{"i", ",", "j"}], "]"}], "]"}], "+", 
+            RowBox[{"influenceFactor", "*", "learningRateDecay", "*", 
+             RowBox[{"(", 
+              RowBox[{"inputVector", "-", 
+               RowBox[{"weights", "[", 
+                RowBox[{"[", 
+                 RowBox[{"i", ",", "j"}], "]"}], "]"}]}], ")"}]}]}], ",", 
+           RowBox[{"weights", "[", 
+            RowBox[{"[", 
+             RowBox[{"i", ",", "j"}], "]"}], "]"}]}], "]"}]}], ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "1", ",", "mapSize"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"j", ",", "1", ",", "mapSize"}], "}"}]}], "]"}]}]}], "]"}]}],
+   "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"Train", " ", "the", " ", "SOM"}], "*)"}], 
+  RowBox[{
+   RowBox[{"trainSOM", "[", 
+    RowBox[{
+    "data_", ",", "mapSize_", ",", "inputSize_", ",", "numIterations_", ",", 
+     "learningRate_", ",", "sigma_"}], "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"weights", ",", "bmuIndex"}], "}"}], ",", 
+     RowBox[{
+      RowBox[{"weights", "=", 
+       RowBox[{"initializeWeights", "[", 
+        RowBox[{"mapSize", ",", "inputSize"}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"Do", "[", 
+       RowBox[{
+        RowBox[{"Scan", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"bmuIndex", "=", 
+            RowBox[{"findBMU", "[", 
+             RowBox[{"#", ",", "weights"}], "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"weights", "=", 
+            RowBox[{
+             RowBox[{"updateWeights", "[", 
+              RowBox[{
+              "weights", ",", "#", ",", "bmuIndex", ",", "iter", ",", 
+               "numIterations", ",", "mapSize", ",", "learningRate", ",", 
+               "sigma"}], "]"}], "&"}]}]}], ",", "data"}], "]"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"iter", ",", "1", ",", "numIterations"}], "}"}]}], "]"}], 
+      ";", "\[IndentingNewLine]", "weights"}]}], "]"}]}], 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"Example", " ", "data"}], "*)"}], 
+  RowBox[{
+   RowBox[{"data", "=", 
+    RowBox[{"RandomReal", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"0", ",", "1"}], "}"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"100", ",", "3"}], "}"}]}], "]"}]}], ";"}], " ", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"100", " ", "data", " ", "points"}], ",", 
+    RowBox[{"each", " ", "of", " ", "dimension", " ", "3"}]}], "*)"}], "\n", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{"Train", " ", "the", " ", "SOM"}], "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"mapSize", "=", "10"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"inputSize", "=", "3"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"numIterations", "=", "1000"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"learningRate", "=", "0.1"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"sigma", "=", "1.0"}], ";"}], "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"trainedWeights", "=", 
+    RowBox[{"trainSOM", "[", 
+     RowBox[{
+     "data", ",", "mapSize", ",", "inputSize", ",", "numIterations", ",", 
+      "learningRate", ",", "sigma"}], "]"}]}], ";"}], 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+   "Predict", " ", "the", " ", "BMU", " ", "for", " ", "a", " ", "new", " ", 
+    "input", " ", "vector"}], "*)"}], 
+  RowBox[{
+   RowBox[{"predictBMU", "[", 
+    RowBox[{"inputVector_", ",", "weights_"}], "]"}], ":=", 
+   RowBox[{"findBMU", "[", 
+    RowBox[{"inputVector", ",", "weights"}], "]"}]}], "\n", "\n", 
+  "\[IndentingNewLine]"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"wireworldRules", "=", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"0", "->", "0"}], ",", 
+      RowBox[{"1", "->", "2"}], ",", 
+      RowBox[{"2", "->", "3"}], ",", 
+      RowBox[{
+       RowBox[{"3", "->", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{
+               RowBox[{"Count", "[", 
+                RowBox[{"#", ",", "1"}], "]"}], "==", "1"}], "||", 
+              RowBox[{
+               RowBox[{"Count", "[", 
+                RowBox[{"#", ",", "1"}], "]"}], "==", "2"}]}], ",", "1", ",", 
+             "3"}], "]"}], "&"}], ")"}], "@", 
+         RowBox[{"Flatten", "[", 
+          RowBox[{"CellularAutomaton", "[", 
+           RowBox[{"230", ",", "#", ",", "1", ",", "All"}], "]"}], "]"}]}]}], 
+       "&"}]}], "}"}]}], ";"}], "\[IndentingNewLine]"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"wireworldCA", "=", 
+    RowBox[{"CellularAutomaton", "[", 
+     RowBox[{"wireworldRules", ",", "initialState", ",", 
+      RowBox[{"{", "t", "}"}]}], "]"}]}], ";"}], 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"fuzzyLSTM", "=", 
+    RowBox[{"NetChain", "[", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"LongShortTermMemoryLayer", "[", 
+        RowBox[{
+         RowBox[{"\"\<InputSize\>\"", "->", "inputSize"}], ",", 
+         RowBox[{"\"\<HiddenSize\>\"", "->", "hiddenSize"}]}], "]"}], ",", 
+       RowBox[{"NetMapOperator", "[", 
+        RowBox[{
+         RowBox[{"FuzzyLogicLayer", "[", 
+          RowBox[{"#", ",", "weights", ",", "bias"}], "]"}], "&"}], "]"}], 
+       ",", 
+       RowBox[{"LinearLayer", "[", "1", "]"}]}], "}"}], "]"}]}], ";"}], 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"generator", "=", 
+    RowBox[{"NetChain", "[", 
+     RowBox[{"{", 
+      RowBox[{"masterController", ",", 
+       RowBox[{"LinearLayer", "[", "784", "]"}], ",", "Ramp"}], "}"}], 
+     "]"}]}], ";"}], "\[IndentingNewLine]"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"discriminator", "=", 
+    RowBox[{"NetChain", "[", 
+     RowBox[{"{", 
+      RowBox[{"masterController", ",", 
+       RowBox[{"LinearLayer", "[", "1", "]"}], ",", "LogisticSigmoid"}], 
+      "}"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+  "\n"}], "\[IndentingNewLine]"}], "Input",
+ CellChangeTimes->{{3.9330005831590595`*^9, 3.933000673893196*^9}, {
+  3.9330009623006973`*^9, 
+  3.9330010850817738`*^9}},ExpressionUUID->"b239ff3e-7d90-dd43-b655-\
+6d629e7ae849"]
+},
+WindowSize->{582.6, 488.4},
+WindowMargins->{{279, Automatic}, {Automatic, 40.199999999999996`}},
+FrontEndVersion->"14.1 for Microsoft Windows (64-bit) (July 16, 2024)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"0eb7e7c2-b6fa-184b-b1d3-030fcf15b63d"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[554, 20, 10433, 293, 1626, "Input",ExpressionUUID->"b239ff3e-7d90-dd43-b655-6d629e7ae849"]
+}
+]
+*)
+
+(* End of internal cache information *)
+

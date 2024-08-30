@@ -1,0 +1,178 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[      5480,        168]
+NotebookOptionsPosition[      5102,        154]
+NotebookOutlinePosition[      5522,        170]
+CellTagsIndexPosition[      5479,        167]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"NoSignal", ":=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"\"\<dt\>\"", "->", "0"}], ",", 
+     RowBox[{"\"\<da\>\"", "->", "0"}]}], "}"}]}], " ", 
+  RowBox[{"(*", 
+   RowBox[{"Null", " ", "point", " ", "in", " ", "space"}], "*)"}], 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ConstantDCSignal", ":=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"\"\<dt\>\"", "->", "x"}], ",", 
+     RowBox[{"\"\<da\>\"", "->", "0"}]}], "}"}]}], " ", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"Zero", " ", "gain"}], ",", 
+    RowBox[{"constant", " ", "time"}]}], "*)"}], 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"OffsetDCSignal", ":=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"\"\<dt\>\"", "->", "0"}], ",", 
+     RowBox[{"\"\<da\>\"", "->", "y"}]}], "}"}]}], " ", 
+  RowBox[{"(*", 
+   RowBox[{"Static", " ", "DC", " ", "offset", " ", "voltage"}], "*)"}], 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ACSineWave", ":=", 
+   RowBox[{"Sin", "[", 
+    RowBox[{"\[Omega]", " ", "t"}], "]"}]}], " ", 
+  RowBox[{"(*", 
+   RowBox[{"Frequency", " ", "F", " ", "AC", " ", "signal"}], "*)"}], 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"OffsetACSineWave", ":=", 
+   RowBox[{"y", "+", 
+    RowBox[{"Sin", "[", 
+     RowBox[{"\[Omega]", " ", "t"}], "]"}]}]}], " ", 
+  RowBox[{"(*", 
+   RowBox[{"Sine", " ", "wave", " ", "with", " ", "DC", " ", "offset"}], 
+   "*)"}], "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"AMSignal", ":=", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{"1", "+", 
+      RowBox[{"m", " ", 
+       RowBox[{"Cos", "[", 
+        RowBox[{"\[Omega]_m", " ", "t"}], "]"}]}]}], ")"}], " ", 
+    RowBox[{"Cos", "[", 
+     RowBox[{"\[Omega]_c", " ", "t"}], "]"}]}]}], " ", 
+  RowBox[{"(*", 
+   RowBox[{
+   "Carrier", " ", "modulated", " ", "by", " ", "signal", " ", "m", " ", "at",
+     " ", "frequency", " ", "\[Omega]_m"}], "*)"}], 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"FMSignal", "[", "t_", "]"}], ":=", 
+   RowBox[{"Sin", "[", 
+    RowBox[{
+     RowBox[{"\[Omega]_c", " ", "t"}], "+", 
+     RowBox[{"\[Beta]", " ", 
+      RowBox[{"Sin", "[", 
+       RowBox[{"\[Omega]_m", " ", "t"}], "]"}]}]}], "]"}]}], " ", 
+  RowBox[{"(*", 
+   RowBox[{
+   "Frequency", " ", "modulated", " ", "signal", " ", "with", " ", 
+    "modulation", " ", "index", " ", "\[Beta]", " ", "and", " ", "modulation",
+     " ", "frequency", " ", "\[Omega]_m"}], "*)"}], 
+  "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"InstantaneousFrequency", ":=", 
+   RowBox[{"Sin", "[", 
+    RowBox[{
+     RowBox[{"\[Omega]_c", " ", "t"}], "+", 
+     RowBox[{"Integrate", "[", 
+      RowBox[{
+       RowBox[{"xBB", "[", "t", "]"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"t", ",", 
+         RowBox[{"-", "\[Infinity]"}], ",", "t"}], "}"}]}], "]"}]}], "]"}]}], 
+  " ", 
+  RowBox[{"(*", 
+   RowBox[{
+   "FM", " ", "with", " ", "instantaneous", " ", "frequency", " ", "change"}],
+    "*)"}], "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ElectricField", ":=", 
+   RowBox[{"D", "[", 
+    RowBox[{
+     RowBox[{"Voltage", "[", 
+      RowBox[{"x", ",", "y", ",", "z"}], "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"x", ",", "2"}], "}"}]}], "]"}]}], " ", 
+  RowBox[{"(*", 
+   RowBox[{
+   "Electric", " ", "field", " ", "proportional", " ", "to", " ", "the", " ", 
+    "spatial", " ", "rate", " ", "of", " ", "change", " ", "of", " ", 
+    "voltage"}], "*)"}], "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"MagneticField", ":=", 
+   RowBox[{"Current", "[", 
+    RowBox[{"x", ",", "y", ",", "z"}], "]"}]}], " ", 
+  RowBox[{"(*", 
+   RowBox[{
+   "Magnetic", " ", "field", " ", "strength", " ", "proportional", " ", "to", 
+    " ", "current"}], "*)"}], "\n"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"BinomialEntropy", "[", "p_", "]"}], ":=", 
+  RowBox[{
+   RowBox[{"-", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"p", " ", 
+       RowBox[{"Log2", "[", "p", "]"}]}], "+", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"1", "-", "p"}], ")"}], " ", 
+       RowBox[{"Log2", "[", 
+        RowBox[{"1", "-", "p"}], "]"}]}]}], ")"}]}], "/;", 
+   RowBox[{"0", "<", "p", "<", "1"}]}]}], "\n", 
+ RowBox[{
+  RowBox[{"BinomialEntropy", "[", "0", "]"}], ":=", "0"}], "\n", 
+ RowBox[{
+  RowBox[{"BinomialEntropy", "[", "1", "]"}], ":=", "0"}]}], "Input",
+ CellChangeTimes->{{3.9334323970254803`*^9, 3.9334324265589066`*^9}, {
+  3.9334324604539795`*^9, 3.93343251219783*^9}},
+ CellLabel->"In[14]:=",ExpressionUUID->"29c95469-d974-5e47-ab49-2873f7dc4076"]
+},
+WindowSize->{582.6, 488.4},
+WindowMargins->{{279, Automatic}, {Automatic, 40.199999999999996`}},
+FrontEndVersion->"14.1 for Microsoft Windows (64-bit) (July 16, 2024)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"ed9ca43b-34c3-d642-89f7-d2720b02ea84"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[554, 20, 4544, 132, 625, "Input",ExpressionUUID->"29c95469-d974-5e47-ab49-2873f7dc4076"]
+}
+]
+*)
+
+(* End of internal cache information *)
+
